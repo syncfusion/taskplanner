@@ -1,0 +1,76 @@
+﻿@model TaskPlanner.Models.ProjectObjects
+<style>
+	#projectGrid.e-grid .e-gridheader .e-headercontent {
+		display: none;
+	}
+
+	#projectGrid_content_table .e-emptyrow td, .grid-row td {
+		padding: 7.5px 15px;
+	}
+
+	.grid-row td {
+		border-bottom: 1px solid #E3E3E6;
+		width: 100%;
+	}
+
+	.title-row {
+		padding: 10px 0;
+	}
+
+	.title-row-text {
+		font-weight: 700;
+		width: 60%;
+	}
+
+	.descrip-row, .title-row-text {
+		float: left;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.logo-icon-size {
+		float: right;
+		margin-left: 10px;
+	}
+
+	.fa, .glyphicon {
+		color: rgba(0,0,0,.54);
+	}
+
+	.descrip-row {
+		color: #757575;
+		height: 20px;
+		padding-top: 5px;
+		width: 90%;
+	}
+
+	.descrip-row, .title-row-text {
+		float: left;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+</style>
+<script id="rowtemplate" type="text/x-template">
+	<tr class="grid-row" id="${ProjectId}">
+		<td>
+			<div class="title-row">
+				<span class="title-row-text" title="${ProjectName}">
+					<a href="/">${ProjectName}</a>
+				</span>
+				<i class="sficon-user-settings logo-icon-size" data-id="${ProjectId}" data-title="${ProjectName}" onclick="permissionClick(${ProjectId})" title="Remove Story"></i>
+				<i class="sficon-share logo-icon-size" data-id="${ProjectId}" data-title="${ProjectName}" onclick="shareClick(${ProjectId})" title="Remove Story"></i>
+				<i class="sficon-favourite logo-icon-size" data-id="${ProjectId}" data-title="${ProjectName}" onclick="faviouriteClick(${ProjectId})" title="Remove Story"></i>
+				<i class="sficon-delete logo-icon-size" data-id="${ProjectId}" data-title="${ProjectName}" onclick="deleteClick(${ProjectId})" title="Remove Story"></i>
+				<i class="sficon-edit logo-icon-size" data-id="${ProjectId}" data-title="${ProjectName}" onclick="editClick(${ProjectId})" title="Remove Story"></i>
+			</div>
+			<div class="descrip-row" title="${ProjectDescription}">
+				${ProjectDescription}
+			</div>
+		</td>
+	</tr>
+</script>
+
+<div id="projectGrid"></div>
+
