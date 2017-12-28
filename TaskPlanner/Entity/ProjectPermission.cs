@@ -11,9 +11,13 @@ namespace TaskPlanner.Entity
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
+    [Table("ProjectPermission")]
     public partial class ProjectPermission
     {
+        [Key]
         public int PermissionId { get; set; }
         public int ProjectId { get; set; }
         public string EmailId { get; set; }

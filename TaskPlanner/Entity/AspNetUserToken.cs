@@ -11,9 +11,13 @@ namespace TaskPlanner.Entity
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
+    [Table("AspNetUserTokens")]
     public partial class AspNetUserToken
     {
+        [Key]
         public string UserId { get; set; }
         public string LoginProvider { get; set; }
         public string Name { get; set; }

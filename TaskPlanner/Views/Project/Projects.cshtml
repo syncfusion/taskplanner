@@ -1,7 +1,21 @@
-﻿
+﻿@model TaskPlanner.Models.ProjectObjects
+@using Newtonsoft.Json
 @{
-    ViewData["Title"] = "Projects";
+	ViewData["Title"] = "Projects";
+	List<ProjectListObjects> storyData = new List<ProjectListObjects>();
+	if (Model != null && Model.ProjectListObjects != null && Model.ProjectListObjects.Count > 0)
+	{
+		storyData = Model.ProjectListObjects;
+	}
+	var storyDataValue = "[]";
+	if (storyData.Count > 0)
+	{
+		storyDataValue = JsonConvert.SerializeObject(storyData);
+	}
+
 }
+
+
 
 <style>
 	.page-sub-header {
@@ -55,7 +69,22 @@
 	#yours {
 		padding-left: 20px;
 	}
+
+    #progressDialogModal {
+        display: none !important;
+    }
 </style>
+
+@section Scripts{
+
+<script type="text/javascript">
+        $(document).ready(function () {         
+            storiesList = @Html.Raw(storyDataValue);
+        });
+
+	System.import('ts/projects.ts').catch(console.error.bind(console));
+</script>
+}
 
 <div class="row page-sub-header" style="margin-bottom: 0;padding-bottom: 0; background: #4285f6">
 	<div class="page-header-title">
@@ -70,7 +99,7 @@
 	</div>
 </div>
 
-<div class="tab-content">
+@*<div class="tab-content">
 	<div id="home" class="tab-pane fade in active">
 		<h3>Your's</h3>
 		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
@@ -83,5 +112,9 @@
 		<h3>All</h3>
 		<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
 	</div>
+</div>*@
+
+<div style="padding-top:20px;">
+	@Html.Partial("~/Views/Project/_projects.cshtml", Model)
 </div>
 

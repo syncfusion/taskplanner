@@ -11,21 +11,41 @@ using Microsoft.Extensions.DependencyInjection;
 using TaskPlanner.Data;
 using TaskPlanner.Models;
 using TaskPlanner.Services;
+using TaskPlanner.Base.Stories;
+using TaskPlanner.Entity;
 
 namespace TaskPlanner
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IHostingEnvironment env)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
+            Configuration = builder.Build();
+
+            ConfigurationSetup = Configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        /// <summary>
+        /// Gets or sets the configuration
+        /// </summary>
+        public static IConfigurationRoot ConfigurationSetup { get; set; }
+
+        /// <summary>
+        /// Gets the configuration
+        /// </summary>
+        public IConfigurationRoot Configuration { get; }
+
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            TaskPlannerEntities.ConnectionString = Configuration.GetConnectionString("DefaultConnection");
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -33,6 +53,7 @@ namespace TaskPlanner
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddScoped<IStoryBaseModel, StoryBaseModel>();
             services.AddAuthentication().AddGoogle(googleOptions =>
             {
                 googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
@@ -68,6 +89,16 @@ namespace TaskPlanner
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+
+                routes.MapRoute(
+                    name: "Stories",
+                    template: "projects/{projectId?}",
+                    defaults: new { controller = "Stories", action = "Stories" });
+
+                routes.MapRoute(
+                    name: "StoriesList",
+                    template: "storieslist/{projectId?}",
+                    defaults: new { controller = "Stories", action = "StoriesList" });
             });
         }
     }

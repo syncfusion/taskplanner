@@ -11,9 +11,13 @@ namespace TaskPlanner.Entity
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
+    [Table("Stories")]
     public partial class Story
     {
+        [Key]
         public int StoryId { get; set; }
         public int TaskId { get; set; }
         public string Title { get; set; }
@@ -32,7 +36,8 @@ namespace TaskPlanner.Entity
         public System.DateTime CreatedOn { get; set; }
         public System.DateTime UpdatedOn { get; set; }
         public bool IsActive { get; set; }
-    
+        public string Tag { get; set; }
+
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual Epic Epic { get; set; }
         public virtual Priority Priority { get; set; }

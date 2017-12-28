@@ -11,9 +11,13 @@ namespace TaskPlanner.Entity
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
+    [Table("AspNetUserClaims")]
     public partial class AspNetUserClaim
     {
+        [Key]
         public int Id { get; set; }
         public string ClaimType { get; set; }
         public string ClaimValue { get; set; }
