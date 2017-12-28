@@ -27,7 +27,8 @@ storyListGrid.appendTo('#projectGrid');
 	alert(id);
 };
 (<any>window).deleteClick = function (id) {
-	alert(id);
+    alert(id);
+
 };
 (<any>window).faviouriteClick = function (id) {
 	alert(id);

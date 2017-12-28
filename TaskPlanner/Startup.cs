@@ -13,6 +13,8 @@ using TaskPlanner.Models;
 using TaskPlanner.Services;
 using TaskPlanner.Base.Stories;
 using TaskPlanner.Entity;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace TaskPlanner
 {
@@ -64,6 +66,14 @@ namespace TaskPlanner
             services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddMvc();
+
+            services.AddMvc(config =>
+            {
+                var policy = new AuthorizationPolicyBuilder()
+                                 .RequireAuthenticatedUser()
+                                 .Build();
+                config.Filters.Add(new AuthorizeFilter(policy));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
