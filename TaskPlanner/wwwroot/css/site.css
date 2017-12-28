@@ -50,3 +50,21 @@
     color: #757575;
 }
 
+#progressDialogModal {
+    display: block;
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 1070;
+    background: rgba(0, 0, 0, 0.3) none repeat scroll 0 0;
+}
+
+.loading-icon {
+    color: #ffffff;
+    font-size: 50px !important;
+    left: 50%;
+    position: absolute;
+    top: 50%;
+}

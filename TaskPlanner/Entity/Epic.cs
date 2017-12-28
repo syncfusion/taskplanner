@@ -11,7 +11,10 @@ namespace TaskPlanner.Entity
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
+    [Table("Epics")]
     public partial class Epic
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -20,6 +23,7 @@ namespace TaskPlanner.Entity
             this.Stories = new HashSet<Story>();
         }
     
+        [Key]
         public int EpicId { get; set; }
         public string EpicName { get; set; }
         public int ProjectId { get; set; }
