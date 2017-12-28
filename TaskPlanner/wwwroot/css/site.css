@@ -1,6 +1,7 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    color:rgba(0,0,0,0.87) !important;
 }
 
 /* Wrapping element */
@@ -33,3 +34,19 @@
         display: none;
     }
 }
+
+
+.logo-icon-size{
+    font-size:15px !important;
+}
+
+.primary-color {
+    color: rgba(0,0,0,0.87) !important;
+}
+
+
+
+.secondary-color {
+    color: #757575;
+}
+

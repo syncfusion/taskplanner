@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <Folder Include="Views\Stories\" />
-    <Folder Include="Views\Project\" />
   </ItemGroup>
 
 </Project>
