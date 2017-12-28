@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace TaskPlanner.Entity
-{
+{    
     using System;
     using Microsoft.EntityFrameworkCore;
 
@@ -15,8 +15,26 @@ namespace TaskPlanner.Entity
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TaskPlannerEntities"/> class.
+        /// constructor for the class
+        /// </summary>
         public TaskPlannerEntities()
         {
+        }
+
+        /// <summary>
+        /// Gets or sets
+        /// </summary>
+        public static string ConnectionString { get; set; }
+
+        /// <summary>
+        /// Configure the details
+        /// </summary>
+        /// <param name="optionsBuilder">options builder </param>
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(ConnectionString);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -110,12 +128,7 @@ namespace TaskPlanner.Entity
    .HasForeignKey(e => e.PriorityId);
         }
 
-        public virtual DbSet<AspNetRoleClaim> AspNetRoleClaims { get; set; }
-        public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
-        public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
-        public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
-        public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; }
         public virtual DbSet<Epic> Epics { get; set; }
         public virtual DbSet<Favourite> Favourites { get; set; }
         public virtual DbSet<Priority> Priorities { get; set; }
