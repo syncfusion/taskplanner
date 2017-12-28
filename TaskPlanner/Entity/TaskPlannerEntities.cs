@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace TaskPlanner.Entity
-{    
+{
     using System;
     using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +12,10 @@ namespace TaskPlanner.Entity
     {
         public TaskPlannerEntities(DbContextOptions<TaskPlannerEntities> options)
             : base(options)
+        {
+        }
+
+        public TaskPlannerEntities()
         {
         }
 
