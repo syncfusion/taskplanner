@@ -11,7 +11,10 @@ namespace TaskPlanner.Entity
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
+    [Table("AspNetRoles")]
     public partial class AspNetRole
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,6 +24,7 @@ namespace TaskPlanner.Entity
             this.AspNetUsers = new HashSet<AspNetUser>();
         }
     
+        [Key]
         public string Id { get; set; }
         public string ConcurrencyStamp { get; set; }
         public string Name { get; set; }

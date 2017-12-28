@@ -11,7 +11,10 @@ namespace TaskPlanner.Entity
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
+    [Table("Priorities")]
     public partial class Priority
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -20,6 +23,7 @@ namespace TaskPlanner.Entity
             this.Stories = new HashSet<Story>();
         }
     
+        [Key]
         public int PriorityId { get; set; }
         public string PriorityName { get; set; }
         public string CreatedBy { get; set; }

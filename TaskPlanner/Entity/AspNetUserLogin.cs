@@ -11,10 +11,14 @@ namespace TaskPlanner.Entity
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
+    [Table("AspNetUserLogins")]
     public partial class AspNetUserLogin
     {
         public string LoginProvider { get; set; }
+        [Key]
         public string ProviderKey { get; set; }
         public string ProviderDisplayName { get; set; }
         public string UserId { get; set; }
