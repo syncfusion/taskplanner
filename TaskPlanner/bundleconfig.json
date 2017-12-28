@@ -1,0 +1,36 @@
+﻿[
+  {
+    "outputFileName": "wwwroot/dist/cssminify/ej2.min.css",
+    "inputFiles": [
+      "wwwroot/css/ej2/material.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/site.min.css",
+    "inputFiles": [
+      "wwwroot/css/site.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/dist/jsminify/ej2.config.min.js",
+    "inputFiles": [
+      "wwwroot/js/ej2/ej2.config.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/site.min.js",
+    "inputFiles": [
+      "wwwroot/js/site.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
+  }
+]
