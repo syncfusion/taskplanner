@@ -26,8 +26,9 @@
 														  ProjectDescription = a.Description,
 														  CreatedOn = a.CreatedOn,
 														  CreatedBy = c.UserName,
-														  Email = c.Email
-													  }).Distinct().ToList();
+														  Email = c.Email,
+                                                          IsOwner = Permission.IsUserOwnerOfProject(currentUserEmail, a.ProjectId)
+                                                      }).Distinct().ToList();
 				}
 
 				else if (filter == "all")
@@ -42,8 +43,9 @@
 														  ProjectDescription = a.Description,
 														  CreatedOn = a.CreatedOn,
 														  CreatedBy = b.UserName,
-														  Email = b.Email
-													  }).Distinct().ToList();
+														  Email = b.Email,
+                                                          IsOwner = Permission.IsUserOwnerOfProject(currentUserEmail, a.ProjectId)
+                                                      }).Distinct().ToList();
 				}
 				else
 				{
@@ -57,8 +59,9 @@
 														  ProjectDescription = a.Description,
 														  CreatedOn = a.CreatedOn,
 														  CreatedBy = b.UserName,
-														  Email = b.Email
-													  }).Distinct().ToList();
+														  Email = b.Email,
+                                                          IsOwner = Permission.IsUserOwnerOfProject(currentUserEmail, a.ProjectId)
+                                                      }).Distinct().ToList();
 				}
 
 
