@@ -61,5 +61,39 @@ namespace TaskPlanner.Controllers
                 return this.Json(new { isSuccess = false, message = "Unexpected error occurred" });
         }
 
+        /// <summary>
+        /// Get New Product Details
+        /// </summary>
+        /// <returns>partial view</returns>
+        public PartialViewResult Newproject()
+        {
+            return this.PartialView("~/Views/Project/_addProject.cshtml");
+        }
+
+        public JsonResult AddProjectAsync(string description = "", string projectname = "")
+        {
+            ProjectListObjects objects = new ProjectListObjects();
+            objects.ProjectDescription = description;
+            objects.ProjectName = projectname;
+            objects.CreatedBy = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var res = new ProjectViewModel().UpdateProjectDetails(objects);
+            if (res.IsSuccess)
+            {
+                return this.Json(new
+                {
+                    status = true,
+                    message = "New project created successfully."
+                });
+            }
+            else
+            {
+                return this.Json(new
+                {
+                    status = false,
+                    message = "Unexpected error occurred."
+                });
+            }
+        }
+
     }
 }

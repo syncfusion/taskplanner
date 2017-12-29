@@ -73,6 +73,26 @@
     #progressDialogModal {
         display: none !important;
     }
+    #addButton {
+        display: block !important;
+        float: right;
+        font-size: 14px;
+        height: 30px;
+        margin-bottom: 5px;
+        margin-top: 10px;
+        border: 0;
+        background: #4285f6;
+        box-shadow: none;
+        border-radius: 0px;
+        color: white;
+    }
+
+    .e-btn.e-flat {
+        color: #757575 !important;
+    }
+        .e-btn.e-flat.e-primary {
+            color: #ad5393 !important;
+        }
 </style>
 
 @section Scripts{
@@ -98,7 +118,14 @@
 		</ul>
 	</div>
 </div>
+<div id="target">
 
+    <button id="addButton" onclick="myFunction()" style="margin-bottom:10px">Add Project</button>
+
+</div>
+<div id="projectmodalDialog">
+
+</div>
 @*<div class="tab-content">
 	<div id="home" class="tab-pane fade in active">
 		<h3>Your's</h3>
@@ -114,7 +141,7 @@
 	</div>
 </div>*@
 
-<div style="padding-top:20px;">
+<div style="padding-top:50px;">
 	@Html.Partial("~/Views/Project/_projects.cshtml", Model)
 </div>
 
