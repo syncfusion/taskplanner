@@ -46,7 +46,7 @@ let storiesList: Grid = new Grid({
         { field: 'Title', headerText: 'Title', type: "string", validationRules: { required: true } },
         { field: 'ThemeName', headerText: 'Theme', type: "string" },
         { field: 'EpicName', headerText: 'Epic', type: "string" },
-        { field: 'Milestone', headerText: 'Milestone', type: "string" },
+        { field: 'Milestone', headerText: 'Milestone', type: "string", visible: false },
         { field: 'Release', headerText: 'Release', type: "string" },
         {
             field: 'Status', headerText: 'Status', type: "string", width: 150, edit: {
@@ -70,13 +70,14 @@ let storiesList: Grid = new Grid({
                     statusObj.appendTo(statusElem);
                 }
             } },
-        { field: 'Priority', headerText: 'Priority', type: "string" },
-        { field: 'Benifit', headerText: 'Benefit', type: "number" },
-        { field: 'Penalty', headerText: 'Penalty', type: "number" },
+        { field: 'Priority', headerText: 'Priority', type: "string", visible: false },
+        { field: 'Benifit', headerText: 'Benefit', type: "number", visible: false },
+        { field: 'Penalty', headerText: 'Penalty', type: "number", visible: false },
         { field: 'StoryPoints', headerText: 'Story Points', type: "number" },
+        { field: 'SortOrder', headerText: 'Sort Order', type: "number", visible: false },
         { field: 'SprintName', headerText: 'Sprint', type: "string" },
-        { field: 'AssigneeName', headerText: 'Assignee', type: "string" },
-        { field: 'Tag', headerText: 'Label', type: "string" }
+        { field: 'AssigneeName', headerText: 'Assignee', type: "string", visible: false },
+        { field: 'Tag', headerText: 'Label', type: "string", visible: false }
     ],
     created: create,
     dataSource: templatedata,

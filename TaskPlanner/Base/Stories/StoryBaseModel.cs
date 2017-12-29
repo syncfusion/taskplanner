@@ -68,6 +68,7 @@ namespace TaskPlanner.Base.Stories
                                   Penalty = story.Penality,
                                   StoryPoints = story.StoryPoints,
                                   Tag = story.Tag,
+                                  SortOrder = story.SortOrder,
                                   SprintName = story.SprintName,
                                   AssigneeName = story.AssigneeName
                               }).ToList();
