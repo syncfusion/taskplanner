@@ -18,34 +18,40 @@
 				{
                     projectList.ProjectListObjects = (from c in context.AspNetUsers.Where(y => (y.Email == currentUserEmail))
                                                       from d in context.ProjectPermissions.Where(i => i.IsActive && i.EmailId == currentUserEmail).DefaultIfEmpty()
-                                                      from a in context.Projects.Where(x => (x.IsActive && (x.ProjectId == d.ProjectId || x.CreatedBy == c.Id)))
+                                                      from a in context.Projects.Where(x => (x.IsActive && (x.ProjectId == d.ProjectId)))
                                                       from b in context.Favourites.Where(y => (y.UserId == c.Id && y.ProjectId == a.ProjectId && y.IsActive))
+                                                      from owner in context.AspNetUsers.Where(y => (y.Id == a.CreatedBy)
+                                                      )
                                                       select new ProjectListObjects
                                                       {
                                                           ProjectId = a.ProjectId,
                                                           ProjectName = a.ProjectName,
                                                           ProjectDescription = a.Description,
                                                           CreatedOn = a.CreatedOn,
-                                                          CreatedBy = c.UserName,
-                                                          Email = c.Email,
-                                                          IsOwner = Permission.IsUserOwnerOfProject(currentUserEmail, a.ProjectId)
+                                                          CreatedBy = owner.Email,
+                                                          Email = owner.Email,
+                                                          IsOwner = owner.Email==currentUserEmail
                                                       }).Distinct().ToList();
 				}
 
 				else if (filter == "all")
 				{
-					projectList.ProjectListObjects = (from b in context.AspNetUsers.Where(i => i.Email == currentUserEmail)
-													  from c in context.ProjectPermissions.Where(z => (z.EmailId == currentUserEmail && z.IsActive)).DefaultIfEmpty()
-													  from a in context.Projects.Where(x => x.IsActive && (x.ProjectId == c.ProjectId || x.CreatedBy == b.Id))
+                    var projPermission = (from c in context.ProjectPermissions where c.EmailId == currentUserEmail && c.IsActive select c.ProjectId).ToList();
+
+                    if(projPermission!=null && projPermission.Count>0)
+                      projectList.ProjectListObjects = (
+													  from a in context.Projects.Where(x => x.IsActive && projPermission.Contains(x.ProjectId ))
+                                                      from b in context.AspNetUsers.Where(i => i.Id == a.CreatedBy)
+                                                      
 													  select new ProjectListObjects
 													  {
 														  ProjectId = a.ProjectId,
 														  ProjectName = a.ProjectName,
 														  ProjectDescription = a.Description,
 														  CreatedOn = a.CreatedOn,
-														  CreatedBy = b.UserName,
+														  CreatedBy = b.Email,
 														  Email = b.Email,
-                                                          IsOwner = Permission.IsUserOwnerOfProject(currentUserEmail, a.ProjectId)
+                                                          IsOwner = b.Email == currentUserEmail
                                                       }).Distinct().ToList();
 				}
 				else
@@ -59,9 +65,9 @@
 														  ProjectName = a.ProjectName,
 														  ProjectDescription = a.Description,
 														  CreatedOn = a.CreatedOn,
-														  CreatedBy = b.UserName,
+														  CreatedBy = b.Email,
 														  Email = b.Email,
-                                                          IsOwner = Permission.IsUserOwnerOfProject(currentUserEmail, a.ProjectId)
+                                                          IsOwner = true
                                                       }).Distinct().ToList();
 				}
 
@@ -121,12 +127,14 @@
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		public static ProjectShareObjects GetProjectSharedList()
+		public static ProjectShareObjects GetProjectSharedList(int projectId,string emailid)
 		{
 			var list = new ProjectShareObjects();
 			using (var context = new TaskPlannerEntities())
 			{
-				list.ProjectShareListObjects = (from a in context.ProjectPermissions.Where(x => (x.IsActive))
+				list.ProjectShareListObjects = (from a in context.ProjectPermissions.Where(x => (x.IsActive) && x.ProjectId== projectId 
+                                                && x.EmailId!=emailid
+                                                )  
 						select new ProjectShareListObjects
 						{
 							PermissionId = a.PermissionId,

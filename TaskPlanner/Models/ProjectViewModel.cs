@@ -9,7 +9,7 @@
 
     public interface IProjectViewModel
     {
-        TransactionResult UpdateProjectDetails(ProjectListObjects newProjectDetails);
+        TransactionResult UpdateProjectDetails(ProjectListObjects newProjectDetails,string email);
         TransactionResult DeleteProject(int projectId);
         TransactionResult UpdateFavouriteList(int projectId, string userId, bool isFavouriteListAdded);
         TransactionResult UpdateProjectPermissionList(int projectId, string emailId, bool isProjectPermissionListAdded);
@@ -17,7 +17,7 @@
 
     public class ProjectViewModel : IProjectViewModel
     {
-        public TransactionResult UpdateProjectDetails(ProjectListObjects newProjectDetails)
+        public TransactionResult UpdateProjectDetails(ProjectListObjects newProjectDetails,string email)
         {
             var result = new TransactionResult();
 
@@ -48,7 +48,19 @@
                             IsActive = true
                         };
                         context.Projects.Add(newProject);
+
+                        var projectPermissionListObj = new ProjectPermission()
+                        {
+                            ProjectId = newProject.ProjectId,
+                            EmailId = email,
+                            UpdatedOn = DateTime.Now,
+                            IsActive = true
+                        };
+                        context.ProjectPermissions.Add(projectPermissionListObj);
+
                     }
+
+
 
                     context.SaveChanges();
                 }
@@ -148,7 +160,9 @@
                 using (var context = new TaskPlannerEntities())
                 {
                     var projectPermissionObj = (from projectPermissionDetails in context.ProjectPermissions.Where(i => i.ProjectId == projectId && i.EmailId == emailId)
-                                                select projectPermissionDetails).ToList();
+                                                select projectPermissionDetails).ToList(); 
+
+
 
                     if (isProjectPermissionListAdded)
                     {
@@ -197,7 +211,7 @@
 		/// </summary>
 		/// <param name="permissionId"></param>
 		/// <returns></returns>
-		public TransactionResult RemoveProjectPermission(int permissionId)
+		public TransactionResult RemoveProjectPermission(int permissionId,string userid)
 		{
 			var result = new TransactionResult();
 			try
@@ -207,7 +221,22 @@
 					var projectPermissionObj = (from projectPermissionDetails in context.ProjectPermissions.Where(i => i.PermissionId == permissionId)
 												select projectPermissionDetails).FirstOrDefault();
 					projectPermissionObj.IsActive = false;
-					context.SaveChanges();
+
+                    var favProjects = (from f in context.Favourites
+                                       where f.IsActive && projectPermissionObj.ProjectId == f.ProjectId && f.UserId == userid
+                                       select
+f).ToList();
+
+                    if (favProjects != null && favProjects.Count > 0)
+                    {
+                        foreach (var item in favProjects)
+                        {
+                            item.IsActive = false;
+                        }
+                    }
+
+
+                    context.SaveChanges();
 				}
 
 				result.IsSuccess = true;
