@@ -37,6 +37,7 @@
 		float: right;
 		margin-left: 20px;
 		font-size: 15px !important;
+		cursor: pointer;
 	}
 
 	.fa, .glyphicon {
@@ -59,10 +60,10 @@
 
 @if (Model != null && Model.ProjectListObjects != null && Model.ProjectListObjects.Count > 0)
 {
-	foreach (var detail in Model.ProjectListObjects)
-	{
-		<table style="width: 100%">
-			<tbody>
+	<table style="width: 100%">
+		<tbody>
+			@foreach (var detail in Model.ProjectListObjects)
+			{
 				<tr class="grid-row" id="@detail.ProjectId">
 					<td>
 						<div class="title-row">
@@ -84,12 +85,11 @@
 						</div>
 					</td>
 				</tr>
-			</tbody>
-		</table>
-
-	}
+			}
+		</tbody>
+	</table>
 }
 else
 {
-<span style="margin-left: 7px;">No results found</span>
+	<span style="margin-left: 7px;">No results found</span>
 }

@@ -108,5 +108,48 @@ namespace TaskPlanner.Controllers
             }
         }
 
-    }
+		/// <summary>
+		/// Shareproject() - Return the partial view
+		/// </summary>
+		/// <returns>partial view</returns>
+		public PartialViewResult ShareProject()
+		{
+			var list = ProjectModel.GetProjectSharedList();
+			//return this.PartialView("~/Views/Project/_ShareList.cshtml", list);
+			return this.PartialView("~/Views/Project/_ShareProject.cshtml", list);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="projectId"></param>
+		/// <param name="email"></param>
+		/// <returns></returns>
+		public JsonResult ShareEmail(int projectId, string email = "")
+		{
+			var res = new ProjectViewModel().UpdateProjectPermissionList(projectId, email,true);
+			if (res.IsSuccess)
+			{
+				return this.Json(new
+				{
+					status = true,
+					message = "New project created successfully."
+				});
+			}
+			else
+			{
+				return this.Json(new
+				{
+					status = false,
+					message = "Unexpected error occurred."
+				});
+			}
+		}
+
+		public ActionResult GetShareProjectList()
+		{
+			var list = ProjectModel.GetProjectSharedList();
+			return this.PartialView("~/Views/Project/_ShareList.cshtml", list);
+		}
+	}
 }

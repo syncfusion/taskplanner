@@ -125,7 +125,16 @@ namespace TaskPlanner
                 template: "project/updateproject",
                 defaults: new { controller = "Project", action = "AddProjectAsync" });
 
-            });
+				routes.MapRoute(
+					name: "Share project",
+					template: "project/shareproject",
+					defaults: new { controller = "Project", action = "ShareProject" });
+
+				routes.MapRoute(
+					name: "Share Email",
+					template: "project/shareemail/{projectId?}/{email?}",
+					defaults: new { controller = "Project", action = "ShareEmail" });
+			});
         }
     }
 }
