@@ -139,7 +139,7 @@ namespace TaskPlanner
                     name: "StoryDelete",
                     template: "story/delete/{storyId?}",
                     defaults: new { controller = "Stories", action = "Delete" });
-            });
+
 				routes.MapRoute(
 					name: "Share project",
 					template: "project/shareproject",

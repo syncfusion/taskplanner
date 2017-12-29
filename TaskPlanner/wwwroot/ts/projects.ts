@@ -321,6 +321,7 @@ function loadprojectsTab(projectId) {
 			let shareEmailContainer = document.getElementById('shareLinks') as HTMLInputElement;
 			shareEmailContainer.value = window.location.href;
 			sharedialogObj.show();
+			$("#shareLinks").select();
 		};
 
 		sharedialogObj.overlayClick = (): void => {

@@ -116,7 +116,6 @@
 
             return projectList;
         }
-    }
 
 		/// <summary>
 		/// 
