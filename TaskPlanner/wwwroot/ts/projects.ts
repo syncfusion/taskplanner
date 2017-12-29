@@ -38,7 +38,7 @@ storyListGrid.appendTo('#projectGrid');
         data: { 'projectId': id},
         success: function (response) {
             if (response.isSuccess === true) {
-               // window.location.href = "/products#all";
+                (<any>window).location.reload();
                 toastr.success(response.message);
             }
             else {
@@ -56,16 +56,15 @@ storyListGrid.appendTo('#projectGrid');
     });
 
 };
-(<any>window).faviouriteClick = function (id) {
+(<any>window).faviouriteClick = function (id, isFavourite =false) { 
 
-    
 
     $.ajax({
-        data: { 'projectId': id },
+        data: { 'projectId': id, 'isFavourite': isFavourite },
         success: function (response) {
             if (response.isSuccess === true) {
-                // window.location.href = "/products#all";
                 toastr.success(response.message);
+                (<any>window).location.reload();
             }
             else {
                 toastr.error(response.message);
@@ -78,7 +77,7 @@ storyListGrid.appendTo('#projectGrid');
         },
         type: 'POST',
         timeout: 180000,
-        url: '/project/favourite/' + id,
+        url: '/project/favourite/',
     });
 };
 (<any>window).shareClick = function (id) {
