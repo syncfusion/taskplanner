@@ -15,7 +15,7 @@ namespace TaskPlanner.Objects
         /// <summary>
         /// Gets or sets the Task Id
         /// </summary>
-        public int TaskId { get; set; }
+        public int? TaskId { get; set; }
 
         /// <summary>
         /// Gets or sets the Story Title
@@ -41,6 +41,21 @@ namespace TaskPlanner.Objects
         /// Gets or sets the Priority
         /// </summary>
         public string Priority { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Milestone
+        /// </summary>
+        public string Milestone { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Release
+        /// </summary>
+        public string Release { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Status
+        /// </summary>
+        public string Status { get; set; }
 
         /// <summary>
         /// Gets or sets the Benifit

@@ -19,7 +19,7 @@ namespace TaskPlanner.Entity
     {
         [Key]
         public int StoryId { get; set; }
-        public int TaskId { get; set; }
+        public Nullable<int> TaskId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public int ProjectId { get; set; }
@@ -37,6 +37,9 @@ namespace TaskPlanner.Entity
         public System.DateTime UpdatedOn { get; set; }
         public bool IsActive { get; set; }
         public string Tag { get; set; }
+        public string Status { get; set; }
+        public string Release { get; set; }
+        public string Milestone { get; set; }
 
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual Epic Epic { get; set; }

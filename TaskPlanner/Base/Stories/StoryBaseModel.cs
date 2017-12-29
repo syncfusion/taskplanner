@@ -14,7 +14,20 @@ namespace TaskPlanner.Base.Stories
         /// <param name="projectId">Project Id</param>
         /// <returns>returns stories lists</returns>
         List<StoryObjects> GetStoriesList(int projectId);
+
+        /// <summary>
+        /// Method declaration to add/update story
+        /// </summary>
+        /// <param name="newStoryDetails">Story Object</param>
+        /// <returns>transaction results</returns>
         TransactionResult UpdateStoryDetails(StoryObjects newStoryDetails);
+
+        /// <summary>
+        /// Method declaration to delete story
+        /// </summary>
+        /// <param name="storyId">Story Id</param>
+        /// <returns>transaction results</returns>
+        TransactionResult DeleteStory(int storyId);
     }
 
     public class StoryBaseModel : IStoryBaseModel
@@ -33,21 +46,31 @@ namespace TaskPlanner.Base.Stories
                 {
                     result = (from story in context.Stories.Where(s => s.IsActive == true && s.ProjectId == projectId)
                               join project in context.Projects on story.ProjectId equals project.ProjectId
-                              join theme in context.Themes on story.ThemeId equals theme.ThemeId
-                              join epic in context.Epics on story.EpicId equals epic.EpicId
-                              join priority in context.Priorities on story.PriorityId equals priority.PriorityId
-                              where project.IsActive == true && theme.IsActive == true && epic.IsActive == true && priority.IsActive == true
+                              join tme in context.Themes on story.ThemeId equals tme.ThemeId into ps
+                              from theme in ps.DefaultIfEmpty()
+                              join epi in context.Epics on story.EpicId equals epi.EpicId into ps1
+                              from epic in ps1.DefaultIfEmpty()
+                              join pri in context.Priorities on story.PriorityId equals pri.PriorityId into ps2
+                              from priority in ps2.DefaultIfEmpty()
+                              where project.IsActive == true
                               select new StoryObjects()
                               {
                                   StoryId = story.StoryId,
+                                  TaskId = story.TaskId,
                                   Title = story.Title,
                                   ThemeName = theme.ThemeName,
                                   EpicName = epic.EpicName,
                                   Priority = priority.PriorityName,
+                                  Milestone = story.Milestone,
+                                  Release = story.Release,
+                                  Status = story.Status,
                                   Benifit = story.Benefit,
                                   Penalty = story.Penality,
                                   StoryPoints = story.StoryPoints,
-                                  Tag = story.Tag
+                                  Tag = story.Tag,
+                                  SortOrder = story.SortOrder,
+                                  SprintName = story.SprintName,
+                                  AssigneeName = story.AssigneeName
                               }).ToList();
                 }
             }
@@ -59,6 +82,11 @@ namespace TaskPlanner.Base.Stories
             return result;
         }
 
+        /// <summary>
+        /// Method definition to add/update story
+        /// </summary>
+        /// <param name="newStoryDetails">Story Object</param>
+        /// <returns>transaction results</returns>
         public TransactionResult UpdateStoryDetails(StoryObjects newStoryDetails)
         {
             var result = new TransactionResult();
@@ -77,22 +105,27 @@ namespace TaskPlanner.Base.Stories
                                                select story).FirstOrDefault();
                         if (storyDetailsObj != null)
                         {
+                            storyDetailsObj.TaskId = newStoryDetails.TaskId;
                             storyDetailsObj.Title = newStoryDetails.Title;
                             storyDetailsObj.Description = newStoryDetails.Description;
                             storyDetailsObj.ProjectId = newStoryDetails.ProjectId;
                             storyDetailsObj.ThemeId = newStoryDetails.ThemeId;
                             storyDetailsObj.EpicId = newStoryDetails.EpicId;
                             storyDetailsObj.PriorityId = newStoryDetails.PriorityId;
+                            storyDetailsObj.Milestone = newStoryDetails.Milestone;
+                            storyDetailsObj.Release = newStoryDetails.Release;
+                            storyDetailsObj.Status = newStoryDetails.Status;
                             storyDetailsObj.StoryPoints = newStoryDetails.StoryPoints;
                             storyDetailsObj.Benefit = newStoryDetails.Benifit;
                             storyDetailsObj.Penality = newStoryDetails.Penalty;
                             storyDetailsObj.SortOrder = newStoryDetails.SortOrder;
-                            storyDetailsObj.CreatedBy = newStoryDetails.CreatedBy;
                             storyDetailsObj.AssigneeName = newStoryDetails.AssigneeName;
                             storyDetailsObj.SprintName = newStoryDetails.SprintName;
                             storyDetailsObj.CreatedOn = newStoryDetails.CreatedOn;
                             storyDetailsObj.UpdatedOn = DateTime.Now;
                             storyDetailsObj.Tag = newStoryDetails.Tag;
+
+                            result.IsNewRecord = false;
                         }
                     }
                     else
@@ -106,6 +139,9 @@ namespace TaskPlanner.Base.Stories
                             ThemeId = newStoryDetails.ThemeId,
                             EpicId = newStoryDetails.EpicId,
                             PriorityId = newStoryDetails.PriorityId,
+                            Milestone = newStoryDetails.Milestone,
+                            Release = newStoryDetails.Release,
+                            Status = newStoryDetails.Status,
                             StoryPoints = newStoryDetails.StoryPoints,
                             Benefit = newStoryDetails.Benifit,
                             Penality = newStoryDetails.Penalty,
@@ -120,6 +156,8 @@ namespace TaskPlanner.Base.Stories
                         };
 
                         context.Stories.Add(newStory);
+
+                        result.IsNewRecord = true;
                     }
 
                     context.SaveChanges();
@@ -135,6 +173,11 @@ namespace TaskPlanner.Base.Stories
             return result;
         }
 
+        /// <summary>
+        /// Method definition to delete story
+        /// </summary>
+        /// <param name="storyId">Story Id</param>
+        /// <returns>transaction results</returns>
         public TransactionResult DeleteStory(int storyId)
         {
             var result = new TransactionResult();

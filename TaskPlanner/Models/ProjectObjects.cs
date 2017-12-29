@@ -30,4 +30,18 @@ namespace TaskPlanner.Models
 		public string Email { get; set; }
         public bool IsFavourite { get; internal set; }
     }
+
+
+	public class ProjectShareObjects
+	{
+		public List<ProjectShareListObjects> ProjectShareListObjects { get; set; }
+
+	}
+
+	public class ProjectShareListObjects
+	{
+		public int PermissionId { get; set; }
+
+		public string EmailId { get; set; }
+	}
 }

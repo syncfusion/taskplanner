@@ -89,5 +89,29 @@ new { ProjectName = p.ProjectName, Description = p.Description }
                 return result;
             }
         }
+
+
+        /// <summary>
+        /// Method to add/update story
+        /// </summary>
+        /// <param name="storyObj">Story Objects/param>
+        /// <returns>transaction results</returns>
+        public TransactionResult AddUpdateStory(StoryObjects storyObj)
+        {
+            var result = this.iStoryBase.UpdateStoryDetails(storyObj);
+            return result;
+        }
+
+
+        /// <summary>
+        /// Method to delete story
+        /// </summary>
+        /// <param name="storyId">Story Id</param>
+        /// <returns>transaction results</returns>
+        public TransactionResult DeleteStory(int storyId)
+        {
+            var result = this.iStoryBase.DeleteStory(storyId);
+            return result;
+        }
     }
 }

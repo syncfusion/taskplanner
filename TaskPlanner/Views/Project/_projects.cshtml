@@ -37,6 +37,7 @@
 		float: right;
 		margin-left: 20px;
 		font-size: 15px !important;
+		cursor: pointer;
 	}
 
 	.fa, .glyphicon {
@@ -60,17 +61,16 @@
 
 @if (Model != null && Model.ProjectListObjects != null && Model.ProjectListObjects.Count > 0)
 {
-	foreach (var detail in Model.ProjectListObjects)
-	{
-		<table style="width: 100%">
-			<tbody>
+	<table style="width: 100%">
+		<tbody>
+			@foreach (var detail in Model.ProjectListObjects)
+			{
 				<tr class="grid-row" id="@detail.ProjectId">
 					<td>
                         <div class="title-row">
                             <span class="title-row-text" title="@detail.ProjectName">
                                 <a href="/projects/@detail.ProjectId" target="_blank">@detail.ProjectName</a>
                             </span>
-                            <i class="sficon-share logo-icon-size-project" data-id="@detail.ProjectId" data-title="@detail.ProjectName" onclick="shareClick(@detail.ProjectId)" title="Share Project / View Permissions"></i>
                            @if(@detail.IsFavourite)
                             {
                             <i class="sficon-favourite logo-icon-size-project" style="background:yellow"  data-id="@detail.ProjectId" data-title="@detail.ProjectName" onclick="faviouriteClick(@detail.ProjectId,'false')" title="Remove from favourite"></i>
@@ -79,9 +79,21 @@
                             {
                             <i class="sficon-favourite logo-icon-size-project" data-id="@detail.ProjectId" data-title="@detail.ProjectName" onclick="faviouriteClick(@detail.ProjectId,'true')" title="Add to favourite"></i>
 
+                            }                            
+                            
+                            @if (detail.IsOwner)
+                            {
+                                <i class="sficon-share logo-icon-size-project" data-id="@detail.ProjectId" data-title="@detail.ProjectName" onclick="shareClick(@detail.ProjectId)" title="Share Project / View Permissions" style="display:block"></i>
+                                <i class="sficon-delete logo-icon-size-project" data-id="@detail.ProjectId" data-title="@detail.ProjectName" onclick="deleteClick(@detail.ProjectId)" title="Delete Project" style="display:block"></i>
+                                <i class="sficon-edit logo-icon-size-project" data-id="@detail.ProjectId" data-title="@detail.ProjectName" onclick="editClick(@detail.ProjectId)" title="Edit Project" style="display:block"></i>
                             }
-                            <i class="sficon-delete logo-icon-size-project" data-id="@detail.ProjectId" data-title="@detail.ProjectName" onclick="deleteClick(@detail.ProjectId)" title="Delete Project"></i>
-                            <i class="sficon-edit logo-icon-size-project" data-id="@detail.ProjectId" data-title="@detail.ProjectName" onclick="editClick(@detail.ProjectId)" title="Edit Project"></i>
+                            else
+                            {
+                                <i class="sficon-share logo-icon-size-project" data-id="@detail.ProjectId" data-title="@detail.ProjectName" onclick="shareClick(@detail.ProjectId)" title="Share Project / View Permissions" style="display:none"></i>
+                                <i class="sficon-delete logo-icon-size-project" data-id="@detail.ProjectId" data-title="@detail.ProjectName" onclick="deleteClick(@detail.ProjectId)" title="Delete Project" style="display:none"></i>
+                                <i class="sficon-edit logo-icon-size-project" data-id="@detail.ProjectId" data-title="@detail.ProjectName" onclick="editClick(@detail.ProjectId)" title="Edit Project" style="display:none"></i>                                
+                            }
+
                         </div>
 						<div class="descrip-row">
 							<span class="descrip-row-text" title="@detail.ProjectDescription">
@@ -93,10 +105,9 @@
 						</div>
 					</td>
 				</tr>
-			</tbody>
-		</table>
-
-	}
+			}
+		</tbody>
+	</table>
 }
 else
 {
