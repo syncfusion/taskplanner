@@ -95,7 +95,9 @@ namespace TaskPlanner.Controllers
             if(id >0)
                 objects.ProjectId = id;
             objects.CreatedBy = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var res = new ProjectViewModel().UpdateProjectDetails(objects);
+            var currentUserEmail = User.Identity.Name;
+
+            var res = new ProjectViewModel().UpdateProjectDetails(objects, currentUserEmail);
             if (res.IsSuccess)
             {
                 return this.Json(new
@@ -150,7 +152,11 @@ namespace TaskPlanner.Controllers
 		/// <returns>partial view</returns>
 		public PartialViewResult ShareProject(int projectId)
 		{
-			var list = ProjectModel.GetProjectSharedList(projectId);
+            var currentUserEmail = User.Identity.Name.ToLower().Trim();
+
+
+
+            var list = ProjectModel.GetProjectSharedList(projectId, currentUserEmail);
 			//return this.PartialView("~/Views/Project/_ShareList.cshtml", list);
 			return this.PartialView("~/Views/Project/_ShareProject.cshtml", list);
 		}
@@ -163,13 +169,25 @@ namespace TaskPlanner.Controllers
 		/// <returns></returns>
 		public JsonResult ShareEmail(int projectId, string email = "")
 		{
-			var res = new ProjectViewModel().UpdateProjectPermissionList(projectId, email,true);
+            var currentUserEmail = User.Identity.Name.ToLower().Trim() ;
+
+            email = email.ToLower().Trim();
+            if (email== currentUserEmail)
+                return this.Json(new
+                {
+                    status = true,
+                    message = "Owner already has permission for project."
+                });
+
+            
+
+            var res = new ProjectViewModel().UpdateProjectPermissionList(projectId, email,true);
 			if (res.IsSuccess)
 			{
 				return this.Json(new
 				{
 					status = true,
-					message = "New project created successfully."
+					message = "Permission added successfully."
 				});
 			}
 			else
@@ -181,12 +199,7 @@ namespace TaskPlanner.Controllers
 				});
 			}
 		}
-
-		public ActionResult GetShareProjectList(int projectId)
-		{
-			var list = ProjectModel.GetProjectSharedList(projectId);
-			return this.PartialView("~/Views/Project/_ShareList.cshtml", list);
-		}
+ 
 
 		/// <summary>
 		/// 
@@ -195,8 +208,14 @@ namespace TaskPlanner.Controllers
 		/// <returns></returns>
 		public JsonResult RemovePermission(int permissionId)
 		{
-			var res = new ProjectViewModel().RemoveProjectPermission(permissionId);
-			if (res.IsSuccess)
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var res = new ProjectViewModel().RemoveProjectPermission(permissionId, userId);
+
+
+
+            if (res.IsSuccess)
 			{
 				return this.Json(new
 				{
