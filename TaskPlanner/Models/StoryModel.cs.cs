@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using TaskPlanner.Base.Stories;
 using TaskPlanner.Objects;
 using Syncfusion.JavaScript.DataSources;
+using TaskPlanner.Entity;
 
 namespace TaskPlanner.Models
 {
@@ -73,6 +74,44 @@ namespace TaskPlanner.Models
             }
 
             return storiesList.ToList();
+        }
+
+        public dynamic GetProjectDetails(int projectId)
+        {
+            using (var context = new TaskPlannerEntities())
+            {
+                var result = (from p in context.Projects
+                              where p.ProjectId == projectId
+                              select
+new { ProjectName = p.ProjectName, Description = p.Description }
+                              ).FirstOrDefault();
+
+                return result;
+            }
+        }
+
+
+        /// <summary>
+        /// Method to add/update story
+        /// </summary>
+        /// <param name="storyObj">Story Objects/param>
+        /// <returns>transaction results</returns>
+        public TransactionResult AddUpdateStory(StoryObjects storyObj)
+        {
+            var result = this.iStoryBase.UpdateStoryDetails(storyObj);
+            return result;
+        }
+
+
+        /// <summary>
+        /// Method to delete story
+        /// </summary>
+        /// <param name="storyId">Story Id</param>
+        /// <returns>transaction results</returns>
+        public TransactionResult DeleteStory(int storyId)
+        {
+            var result = this.iStoryBase.DeleteStory(storyId);
+            return result;
         }
     }
 }

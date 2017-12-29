@@ -16,18 +16,20 @@
 			{
 				if (filter == "favourites")
 				{
-					projectList.ProjectListObjects = (from c in context.AspNetUsers.Where(y => (y.Email == currentUserEmail))
-													  from b in context.Favourites.Where(y => (y.UserId == c.Id && y.IsActive))
-													  from a in context.Projects.Where(x => (x.IsActive && x.ProjectId == b.ProjectId))
-													  select new ProjectListObjects
-													  {
-														  ProjectId = a.ProjectId,
-														  ProjectName = a.ProjectName,
-														  ProjectDescription = a.Description,
-														  CreatedOn = a.CreatedOn,
-														  CreatedBy = c.UserName,
-														  Email = c.Email
-													  }).Distinct().ToList();
+                    projectList.ProjectListObjects = (from c in context.AspNetUsers.Where(y => (y.Email == currentUserEmail))
+                                                      from d in context.ProjectPermissions.Where(i => i.IsActive && i.EmailId == currentUserEmail)
+                                                      from b in context.Favourites.Where(y => (y.UserId == c.Id && y.ProjectId == d.ProjectId && y.IsActive))
+                                                      from a in context.Projects.Where(x => (x.IsActive && x.ProjectId == b.ProjectId))
+                                                      select new ProjectListObjects
+                                                      {
+                                                          ProjectId = a.ProjectId,
+                                                          ProjectName = a.ProjectName,
+                                                          ProjectDescription = a.Description,
+                                                          CreatedOn = a.CreatedOn,
+                                                          CreatedBy = c.UserName,
+                                                          Email = c.Email,
+                                                          IsOwner = Permission.IsUserOwnerOfProject(currentUserEmail, a.ProjectId)
+                                                      }).Distinct().ToList();
 				}
 
 				else if (filter == "all")
@@ -42,8 +44,9 @@
 														  ProjectDescription = a.Description,
 														  CreatedOn = a.CreatedOn,
 														  CreatedBy = b.UserName,
-														  Email = b.Email
-													  }).Distinct().ToList();
+														  Email = b.Email,
+                                                          IsOwner = Permission.IsUserOwnerOfProject(currentUserEmail, a.ProjectId)
+                                                      }).Distinct().ToList();
 				}
 				else
 				{
@@ -57,13 +60,63 @@
 														  ProjectDescription = a.Description,
 														  CreatedOn = a.CreatedOn,
 														  CreatedBy = b.UserName,
-														  Email = b.Email
-													  }).Distinct().ToList();
+														  Email = b.Email,
+                                                          IsOwner = Permission.IsUserOwnerOfProject(currentUserEmail, a.ProjectId)
+                                                      }).Distinct().ToList();
 				}
+
+
+                if (projectList != null && projectList.ProjectListObjects != null && projectList.ProjectListObjects.Count > 0)
+                {
+                    var projects = projectList.ProjectListObjects.Select(x => x.ProjectId).ToList();
+
+                    var userid = context.AspNetUsers.Where(x => x.Email == currentUserEmail).Select(x => x.Id).FirstOrDefault();
+
+
+                    var favouriteObj = (from favouritesDetails in context.Favourites.Where(i => projects.Contains(i.ProjectId) && i.IsActive && i.UserId == userid)
+                                        select favouritesDetails.ProjectId).ToList();
+
+
+                    if (favouriteObj != null)
+                    {
+                        foreach (var item in projectList.ProjectListObjects)
+                        {
+                            if (favouriteObj.Contains(item.ProjectId))
+                                item.IsFavourite = true;
+                        }
+                    }
+                }
+                   
+
+
 			}
 
 			return projectList;
 		}
+
+        public static ProjectObjects GetProjectDetails(int projectId)
+        {
+            var projectList = new ProjectObjects();
+
+            using (var context = new TaskPlannerEntities())
+            {
+                    projectList.ProjectListObjects = (from a in context.Projects.Where(x => (x.IsActive && x.ProjectId == projectId))
+                                                      from b in context.AspNetUsers.Where(y => y.Id == a.CreatedBy)
+                                                      select new ProjectListObjects
+                                                      {
+                                                          ProjectId = a.ProjectId,
+                                                          ProjectName = a.ProjectName,
+                                                          ProjectDescription = a.Description,
+                                                          CreatedOn = a.CreatedOn,
+                                                          CreatedBy = b.UserName,
+                                                          Email = b.Email
+                                                      }).Distinct().ToList();
+                
+            }
+
+            return projectList;
+        }
+    }
 
 		/// <summary>
 		/// 

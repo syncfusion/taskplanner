@@ -6,11 +6,41 @@ import { Ajax } from '@syncfusion/ej2-base';
 
 Grid.Inject(Sort, Page, Filter, Toolbar);
 declare let storiesList: any;
-
+let newdialogObj: Dialog;
 let progressModel: HTMLInputElement = document.getElementById('progressDialogModal') as HTMLInputElement;
+let isEdit: boolean = false;
+let projectIdstring: string;
 
 (<any>window).editClick = function (id) {
-	alert(id);
+    projectIdstring = id;
+    progressModel.style.cssText = "display : block";
+    $.ajax({
+        data: { 'projectId': id },
+        success: function (response) {
+            if (response.status === true) {
+                document.getElementById('projectmodalDialog_title').innerHTML = "Edit Project"
+                let projectNameContainer = document.getElementById('projectnameinput') as HTMLInputElement;
+                projectNameContainer.value = response.name;
+
+                let descriptionContainer = document.getElementById('descriptioninput') as HTMLInputElement;
+                descriptionContainer.value = response.description;
+                newdialogObj.show();
+
+            }
+            else {
+                toastr.error(response.message);
+            }
+        },
+        error: function () {
+            toastr.error("Unexpected error occured");
+        },
+        complete: function () {
+            progressModel.style.cssText = "display : none";
+        },
+        type: 'POST',
+        timeout: 180000,
+        url: '/project/edit',
+    });
 };
 (<any>window).deleteClick = function (id) {
     
@@ -24,7 +54,7 @@ let progressModel: HTMLInputElement = document.getElementById('progressDialogMod
         data: { 'projectId': id},
         success: function (response) {
             if (response.isSuccess === true) {
-               // window.location.href = "/products#all";
+                (<any>window).location.reload();
                 toastr.success(response.message);
             }
             else {
@@ -42,16 +72,15 @@ let progressModel: HTMLInputElement = document.getElementById('progressDialogMod
     });
 
 };
-(<any>window).faviouriteClick = function (id) {
+(<any>window).faviouriteClick = function (id,isFavourite) { 
 
-    
 
     $.ajax({
-        data: { 'projectId': id },
+        data: { 'projectId': id, 'isFavourite': isFavourite },
         success: function (response) {
             if (response.isSuccess === true) {
-                // window.location.href = "/products#all";
                 toastr.success(response.message);
+                (<any>window).location.reload();
             }
             else {
                 toastr.error(response.message);
@@ -64,7 +93,7 @@ let progressModel: HTMLInputElement = document.getElementById('progressDialogMod
         },
         type: 'POST',
         timeout: 180000,
-        url: '/project/favourite/' + id,
+        url: '/project/favourite/',
     });
 };
 
@@ -131,12 +160,11 @@ function loadprojectsTab(projectId) {
     let ajax: Ajax = new Ajax("/project/addproject", "GET", true);
     ajax.send().then();
     ajax.onSuccess = (data: string): void => {
-        ;
-        let newdialogObj: Dialog = new Dialog({
+        
+        newdialogObj = new Dialog({
             width: '600px',
             height: '300px',
             header: 'Add Project',
-            //created: dlgCreate,
             content: data,
             closeOnEscape: false,
             target: document.getElementById('targetbody'),
@@ -153,7 +181,7 @@ function loadprojectsTab(projectId) {
             },
             {
                 click: addButtonClick,
-                buttonModel: { id: 'addprojectAddbutton', content: 'Add', cssClass: 'e-flat', isPrimary: true },
+                buttonModel: { id: 'addprojectAddbutton', content: 'Update', cssClass: 'e-flat', isPrimary: true },
             }],
             open: addMilestonedialogOpen,
         });
@@ -180,7 +208,7 @@ function loadprojectsTab(projectId) {
                     type: "GET",
                     url: '/project/updateproject',
                     data: {
-                        'description': descriptionContainer.value, 'projectname': projectNameContainer.value
+                        'description': descriptionContainer.value, 'projectname': projectNameContainer.value, 'projectId': projectIdstring
                     },
                     error: function (response) {
                         $('#erroraddproject').text("Unexpected error occured");
@@ -215,6 +243,7 @@ function loadprojectsTab(projectId) {
                     errorprojectName.innerHTML = "Required Field";
                     errorprojectName.style.display = "block";
                 }  
+                progressModel.style.cssText = "display : none";
             }
 
         }
@@ -241,6 +270,13 @@ function loadprojectsTab(projectId) {
         }
 
         (<any>window).myFunction = function () {
+            document.getElementById('projectmodalDialog_title').innerHTML = "Add Project"
+            projectIdstring = "";
+            let projectNameContainer = document.getElementById('projectnameinput') as HTMLInputElement;
+            projectNameContainer.value = "";
+
+            let descriptionContainer = document.getElementById('descriptioninput') as HTMLInputElement;
+            descriptionContainer.value = "";
             newdialogObj.show();
         };
 	}
