@@ -281,7 +281,7 @@ namespace TaskPlanner.Controllers
             if (result.Succeeded)
             {
                 _logger.LogInformation("User logged in with {Name} provider.", info.LoginProvider);
-                return RedirectToLocal(returnUrl);
+                return RedirectToLocal("/project");
             }
             if (result.IsLockedOut)
             {

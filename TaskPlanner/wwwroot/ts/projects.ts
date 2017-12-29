@@ -72,7 +72,7 @@ let projectIdstring: string;
     });
 
 };
-(<any>window).faviouriteClick = function (id, isFavourite =false) { 
+(<any>window).faviouriteClick = function (id,isFavourite) { 
 
 
     $.ajax({

@@ -65,21 +65,29 @@
 			<tbody>
 				<tr class="grid-row" id="@detail.ProjectId">
 					<td>
-						<div class="title-row">
-							<span class="title-row-text" title="@detail.ProjectName">
-								<a href="/projects/@detail.ProjectId" target="_blank">@detail.ProjectName</a>
-							</span>
-							<i class="sficon-share logo-icon-size-project" data-id="@detail.ProjectId" data-title="@detail.ProjectName" onclick="shareClick(@detail.ProjectId)" title="Share Project"></i>
-							<i class="sficon-favourite logo-icon-size-project" data-id="@detail.ProjectId" data-title="@detail.ProjectName" onclick="faviouriteClick(@detail.ProjectId)" title="Favourite Project"></i>
-							<i class="sficon-delete logo-icon-size-project" data-id="@detail.ProjectId" data-title="@detail.ProjectName" onclick="deleteClick(@detail.ProjectId)" title="Remove Project"></i>
-							<i class="sficon-edit logo-icon-size-project" data-id="@detail.ProjectId" data-title="@detail.ProjectName" onclick="editClick(@detail.ProjectId)" title="Edit Project"></i>
-						</div>
+                        <div class="title-row">
+                            <span class="title-row-text" title="@detail.ProjectName">
+                                <a href="/projects/@detail.ProjectId" target="_blank">@detail.ProjectName</a>
+                            </span>
+                            <i class="sficon-share logo-icon-size-project" data-id="@detail.ProjectId" data-title="@detail.ProjectName" onclick="shareClick(@detail.ProjectId)" title="Share Project / View Permissions"></i>
+                           @if(@detail.IsFavourite)
+                            {
+                            <i class="sficon-favourite logo-icon-size-project" style="background:yellow"  data-id="@detail.ProjectId" data-title="@detail.ProjectName" onclick="faviouriteClick(@detail.ProjectId,'false')" title="Remove from favourite"></i>
+                            }
+                            else
+                            {
+                            <i class="sficon-favourite logo-icon-size-project" data-id="@detail.ProjectId" data-title="@detail.ProjectName" onclick="faviouriteClick(@detail.ProjectId,'true')" title="Add to favourite"></i>
+
+                            }
+                            <i class="sficon-delete logo-icon-size-project" data-id="@detail.ProjectId" data-title="@detail.ProjectName" onclick="deleteClick(@detail.ProjectId)" title="Delete Project"></i>
+                            <i class="sficon-edit logo-icon-size-project" data-id="@detail.ProjectId" data-title="@detail.ProjectName" onclick="editClick(@detail.ProjectId)" title="Edit Project"></i>
+                        </div>
 						<div class="descrip-row">
 							<span class="descrip-row-text" title="@detail.ProjectDescription">
 								@detail.ProjectDescription
 							</span>
-							<span class="descrip-row-text-right">
-								Created on @detail.CreatedOn.ToString("d, MMM yyyy") by @detail.CreatedBy
+							<span class="descrip-row-text-right" style="font-size:12px">
+								Created on @detail.CreatedOn.ToString("MMM d, yyyy") by @detail.CreatedBy
 							</span>
 						</div>
 					</td>
