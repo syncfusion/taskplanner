@@ -17,9 +17,9 @@
 				if (filter == "favourites")
 				{
                     projectList.ProjectListObjects = (from c in context.AspNetUsers.Where(y => (y.Email == currentUserEmail))
-                                                      from d in context.ProjectPermissions.Where(i => i.IsActive && i.EmailId == currentUserEmail)
-                                                      from b in context.Favourites.Where(y => (y.UserId == c.Id && y.ProjectId == d.ProjectId && y.IsActive))
-                                                      from a in context.Projects.Where(x => (x.IsActive && x.ProjectId == b.ProjectId))
+                                                      from d in context.ProjectPermissions.Where(i => i.IsActive && i.EmailId == currentUserEmail).DefaultIfEmpty()
+                                                      from a in context.Projects.Where(x => (x.IsActive && (x.ProjectId == d.ProjectId || x.CreatedBy == c.Id)))
+                                                      from b in context.Favourites.Where(y => (y.UserId == c.Id && y.ProjectId == a.ProjectId && y.IsActive))
                                                       select new ProjectListObjects
                                                       {
                                                           ProjectId = a.ProjectId,
