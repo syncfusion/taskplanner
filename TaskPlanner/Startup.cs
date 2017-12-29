@@ -130,6 +130,15 @@ namespace TaskPlanner
                 template: "project/edit",
                 defaults: new { controller = "Project", action = "EditProjectAsync" });
 
+                routes.MapRoute(
+                    name: "StoryAddUpdate",
+                    template: "story/addupdate/{data?}/{projectId?}",
+                    defaults: new { controller = "Stories", action = "AddUpdate" });
+
+                routes.MapRoute(
+                    name: "StoryDelete",
+                    template: "story/delete/{storyId?}",
+                    defaults: new { controller = "Stories", action = "Delete" });
             });
         }
     }
