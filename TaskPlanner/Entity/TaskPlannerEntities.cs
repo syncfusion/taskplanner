@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace TaskPlanner.Entity
-{    
+{
     using System;
     using Microsoft.EntityFrameworkCore;
 
@@ -56,6 +56,10 @@ namespace TaskPlanner.Entity
                 .WithOne(e => e.AspNetUser)
                 .HasForeignKey(e => e.CreatedBy);
 
+            modelBuilder.Entity<AspNetUser>()
+                .HasMany(e => e.Projects1)
+                .WithOne(e => e.AspNetUser1)
+                .HasForeignKey(e => e.Owner);
 
             modelBuilder.Entity<AspNetUser>()
                 .HasMany(e => e.Themes)
