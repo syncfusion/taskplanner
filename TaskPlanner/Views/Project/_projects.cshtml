@@ -1,7 +1,8 @@
 ﻿@model TaskPlanner.Models.ProjectObjects
+
 <style>
-	#projectGrid.e-grid .e-gridheader .e-headercontent {
-		display: none;
+	tr {
+		border: 1px solid #E3E3E6;
 	}
 
 	#projectGrid_content_table .e-emptyrow td, .grid-row td {
@@ -9,7 +10,6 @@
 	}
 
 	.grid-row td {
-		border-bottom: 1px solid #E3E3E6;
 		width: 100%;
 	}
 
@@ -17,61 +17,88 @@
 		padding: 10px 0;
 	}
 
+	.descrip-row {
+		padding: 10px 0;
+	}
+
 	.title-row-text {
-		 font-weight:400;
-         font-size:13px;
+		font-weight: 400;
 		width: 60%;
 	}
 
-	.descrip-row, .title-row-text {
+	.descrip-row-text, .title-row-text {
 		float: left;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
 	}
 
-	.logo-icon-size {
+	.logo-icon-size-project {
 		float: right;
-		margin-left: 10px;
+		margin-left: 20px;
+		font-size: 15px !important;
 	}
 
 	.fa, .glyphicon {
 		color: rgba(0,0,0,.54);
 	}
 
-	.descrip-row {
+	.descrip-row-text {
+		color: #757575;
+		padding-top: 5px;
+	}
+
+	.descrip-row-text-right {
 		color: #757575;
 		height: 20px;
 		padding-top: 5px;
-		width: 90%;
-	}
-
-	.descrip-row, .title-row-text {
-		float: left;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
+		float: right;
 	}
 </style>
-<script id="rowtemplate" type="text/x-template">
-	<tr class="grid-row" id="${ProjectId}">
-		<td>
-			<div class="title-row">
-				<span class="title-row-text" title="${ProjectName}">
-					<a href="/projects/${ProjectId}" target="_blank">${ProjectName}</a>
-				</span>
-				<i class="sficon-user-settings logo-icon-size" data-id="${ProjectId}" data-title="${ProjectName}" onclick="permissionClick(${ProjectId})" title="Project Permission"></i>
-				<i class="sficon-share logo-icon-size" data-id="${ProjectId}" data-title="${ProjectName}" onclick="shareClick(${ProjectId})" title="Share Project"></i>
-				<i class="sficon-favourite logo-icon-size" data-id="${ProjectId}" data-title="${ProjectName}" onclick="faviouriteClick(${ProjectId})" title="Favourite Project"></i>
-				<i class="sficon-delete logo-icon-size" data-id="${ProjectId}" data-title="${ProjectName}" onclick="deleteClick(${ProjectId})" title="Remove Project"></i>
-				<i class="sficon-edit logo-icon-size" data-id="${ProjectId}" data-title="${ProjectName}" onclick="editClick(${ProjectId})" title="Edit Project"></i>
-			</div>
-			<div class="descrip-row" title="${ProjectDescription}">
-				${ProjectDescription}
-			</div>
-		</td>
-	</tr>
-</script>
 
-<div id="projectGrid"></div>
 
+
+@if (Model != null && Model.ProjectListObjects != null && Model.ProjectListObjects.Count > 0)
+{
+	foreach (var detail in Model.ProjectListObjects)
+	{
+		<table style="width: 100%">
+			<tbody>
+				<tr class="grid-row" id="@detail.ProjectId">
+					<td>
+                        <div class="title-row">
+                            <span class="title-row-text" title="@detail.ProjectName">
+                                <a href="/projects/@detail.ProjectId" target="_blank">@detail.ProjectName</a>
+                            </span>
+                            <i class="sficon-share logo-icon-size-project" data-id="@detail.ProjectId" data-title="@detail.ProjectName" onclick="shareClick(@detail.ProjectId)" title="Share Project / View Permissions"></i>
+                           @if(@detail.IsFavourite)
+                            {
+                            <i class="sficon-favourite logo-icon-size-project" style="background:yellow"  data-id="@detail.ProjectId" data-title="@detail.ProjectName" onclick="faviouriteClick(@detail.ProjectId,'false')" title="Remove from favourite"></i>
+                            }
+                            else
+                            {
+                            <i class="sficon-favourite logo-icon-size-project" data-id="@detail.ProjectId" data-title="@detail.ProjectName" onclick="faviouriteClick(@detail.ProjectId,'true')" title="Add to favourite"></i>
+
+                            }
+                            <i class="sficon-delete logo-icon-size-project" data-id="@detail.ProjectId" data-title="@detail.ProjectName" onclick="deleteClick(@detail.ProjectId)" title="Delete Project"></i>
+                            <i class="sficon-edit logo-icon-size-project" data-id="@detail.ProjectId" data-title="@detail.ProjectName" onclick="editClick(@detail.ProjectId)" title="Edit Project"></i>
+                        </div>
+						<div class="descrip-row">
+							<span class="descrip-row-text" title="@detail.ProjectDescription">
+								@detail.ProjectDescription
+							</span>
+							<span class="descrip-row-text-right" style="font-size:12px">
+								Created on @detail.CreatedOn.ToString("MMM d, yyyy") by @detail.CreatedBy
+							</span>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+	}
+}
+else
+{
+<span style="margin-left: 7px;">No projects found to list here.</span>
+}
