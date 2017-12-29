@@ -33,14 +33,16 @@ let storiesList: Grid = new Grid({
     columns: [
         { field: 'StoryId', headerText: 'Story Id', showInColumnChooser: false, isPrimaryKey: true, type: "number", visible: false },
         { field: 'TaskId', headerText: 'Task Id', type: "number" },
-        { field: 'Title', headerText: 'Title', width:'150', type: "string" },
-        { field: 'ThemeName', headerText: 'Theme Name', type: "string" },
-        { field: 'EpicName', headerText: 'Epic Name', type: "string" },
+        { field: 'Title', headerText: 'Title', width: '150', type: "string", validationRules: { required: true } },
+        { field: 'ThemeName', headerText: 'Theme', type: "string" },
+        { field: 'EpicName', headerText: 'Epic', type: "string" },
         { field: 'Priority', headerText: 'Priority', type: "string" },
         { field: 'Benifit', headerText: 'Benefit', type: "number" },
         { field: 'Penalty', headerText: 'Penalty', type: "number" },
         { field: 'StoryPoints', headerText: 'Story Points', type: "number" },
-        { field: 'Tag', headerText: 'Tag', type: "string" }
+        { field: 'SprintName', headerText: 'Sprint', type: "string" },
+        { field: 'AssigneeName', headerText: 'Assignee', type: "string" },
+        { field: 'Tag', headerText: 'Label', type: "string" }
     ],
     created: create,
     dataSource: templatedata,

@@ -46,10 +46,13 @@ namespace TaskPlanner.Base.Stories
                 {
                     result = (from story in context.Stories.Where(s => s.IsActive == true && s.ProjectId == projectId)
                               join project in context.Projects on story.ProjectId equals project.ProjectId
-                              join theme in context.Themes on story.ThemeId equals theme.ThemeId
-                              join epic in context.Epics on story.EpicId equals epic.EpicId
-                              join priority in context.Priorities on story.PriorityId equals priority.PriorityId
-                              where project.IsActive == true && theme.IsActive == true && epic.IsActive == true && priority.IsActive == true
+                              join tme in context.Themes on story.ThemeId equals tme.ThemeId into ps
+                              from theme in ps.DefaultIfEmpty()
+                              join epi in context.Epics on story.EpicId equals epi.EpicId into ps1
+                              from epic in ps1.DefaultIfEmpty()
+                              join pri in context.Priorities on story.PriorityId equals pri.PriorityId into ps2
+                              from priority in ps2.DefaultIfEmpty()
+                              where project.IsActive == true
                               select new StoryObjects()
                               {
                                   StoryId = story.StoryId,
@@ -61,7 +64,9 @@ namespace TaskPlanner.Base.Stories
                                   Benifit = story.Benefit,
                                   Penalty = story.Penality,
                                   StoryPoints = story.StoryPoints,
-                                  Tag = story.Tag
+                                  Tag = story.Tag,
+                                  SprintName = story.SprintName,
+                                  AssigneeName = story.AssigneeName
                               }).ToList();
                 }
             }
