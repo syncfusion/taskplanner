@@ -60,6 +60,31 @@
 														  Email = b.Email
 													  }).Distinct().ToList();
 				}
+
+
+                if (projectList != null && projectList.ProjectListObjects != null && projectList.ProjectListObjects.Count > 0)
+                {
+                    var projects = projectList.ProjectListObjects.Select(x => x.ProjectId).ToList();
+
+                    var userid = context.AspNetUsers.Where(x => x.Email == currentUserEmail).Select(x => x.Id).FirstOrDefault();
+
+
+                    var favouriteObj = (from favouritesDetails in context.Favourites.Where(i => projects.Contains(i.ProjectId) && i.IsActive && i.UserId == userid)
+                                        select favouritesDetails.ProjectId).ToList();
+
+
+                    if (favouriteObj != null)
+                    {
+                        foreach (var item in projectList.ProjectListObjects)
+                        {
+                            if (favouriteObj.Contains(item.ProjectId))
+                                item.IsFavourite = true;
+                        }
+                    }
+                }
+                   
+
+
 			}
 
 			return projectList;

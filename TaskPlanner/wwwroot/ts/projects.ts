@@ -42,7 +42,7 @@ let progressModel: HTMLInputElement = document.getElementById('progressDialogMod
     });
 
 };
-(<any>window).faviouriteClick = function (id, isFavourite =false) { 
+(<any>window).faviouriteClick = function (id,isFavourite) { 
 
 
     $.ajax({
