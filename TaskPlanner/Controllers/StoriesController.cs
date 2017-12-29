@@ -34,6 +34,20 @@ namespace TaskPlanner.Controllers
         public IActionResult Stories(int projectId)
         {
             ViewBag.ProjectId = projectId;
+            var currentUserEmail = User.Identity.Name;
+
+            var hasPermission=Permission.IsUserHasAccessToProject(currentUserEmail,projectId);
+           
+            
+
+            if (!hasPermission)
+                return Content("You dont have permission to access this project. Request owner of project for access permission.");
+
+            StoryModel story = new StoryModel(this.iStoryBaseModel);
+            var list = story.GetProjectDetails(projectId); 
+            
+            ViewBag.ProjectName = list.ProjectName;
+            ViewBag.ProjectDescription = list.Description;
             ViewData["Message"] = "Stories";
 
             return View();

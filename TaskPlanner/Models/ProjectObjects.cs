@@ -28,5 +28,6 @@ namespace TaskPlanner.Models
 		public bool IsOwner { get; set; }
 
 		public string Email { get; set; }
-	}
+        public bool IsFavourite { get; internal set; }
+    }
 }

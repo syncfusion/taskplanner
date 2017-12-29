@@ -11,7 +11,9 @@ namespace TaskPlanner.Controllers
 {
     public class ProjectController : Controller
     {
-		public IActionResult Projects() 
+
+        [HttpGet("/project", Name = "Project_List")]
+        public IActionResult Projects() 
         {
             ViewData["Message"] = "Projects";
 

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using TaskPlanner.Base.Stories;
 using TaskPlanner.Objects;
 using Syncfusion.JavaScript.DataSources;
+using TaskPlanner.Entity;
 
 namespace TaskPlanner.Models
 {
@@ -73,6 +74,20 @@ namespace TaskPlanner.Models
             }
 
             return storiesList.ToList();
+        }
+
+        public dynamic GetProjectDetails(int projectId)
+        {
+            using (var context = new TaskPlannerEntities())
+            {
+                var result = (from p in context.Projects
+                              where p.ProjectId == projectId
+                              select
+new { ProjectName = p.ProjectName, Description = p.Description }
+                              ).FirstOrDefault();
+
+                return result;
+            }
         }
     }
 }
