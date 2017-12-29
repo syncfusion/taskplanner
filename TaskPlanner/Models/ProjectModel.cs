@@ -16,18 +16,20 @@
 			{
 				if (filter == "favourites")
 				{
-					projectList.ProjectListObjects = (from c in context.AspNetUsers.Where(y => (y.Email == currentUserEmail))
-													  from b in context.Favourites.Where(y => (y.UserId == c.Id && y.IsActive))
-													  from a in context.Projects.Where(x => (x.IsActive && x.ProjectId == b.ProjectId))
-													  select new ProjectListObjects
-													  {
-														  ProjectId = a.ProjectId,
-														  ProjectName = a.ProjectName,
-														  ProjectDescription = a.Description,
-														  CreatedOn = a.CreatedOn,
-														  CreatedBy = c.UserName,
-														  Email = c.Email
-													  }).Distinct().ToList();
+                    projectList.ProjectListObjects = (from c in context.AspNetUsers.Where(y => (y.Email == currentUserEmail))
+                                                      from d in context.ProjectPermissions.Where(i => i.IsActive && i.EmailId == currentUserEmail)
+                                                      from b in context.Favourites.Where(y => (y.UserId == c.Id && y.ProjectId == d.ProjectId && y.IsActive))
+                                                      from a in context.Projects.Where(x => (x.IsActive && x.ProjectId == b.ProjectId))
+                                                      select new ProjectListObjects
+                                                      {
+                                                          ProjectId = a.ProjectId,
+                                                          ProjectName = a.ProjectName,
+                                                          ProjectDescription = a.Description,
+                                                          CreatedOn = a.CreatedOn,
+                                                          CreatedBy = c.UserName,
+                                                          Email = c.Email,
+                                                          IsOwner = Permission.IsUserOwnerOfProject(currentUserEmail, a.ProjectId)
+                                                      }).Distinct().ToList();
 				}
 
 				else if (filter == "all")
@@ -42,8 +44,9 @@
 														  ProjectDescription = a.Description,
 														  CreatedOn = a.CreatedOn,
 														  CreatedBy = b.UserName,
-														  Email = b.Email
-													  }).Distinct().ToList();
+														  Email = b.Email,
+                                                          IsOwner = Permission.IsUserOwnerOfProject(currentUserEmail, a.ProjectId)
+                                                      }).Distinct().ToList();
 				}
 				else
 				{
@@ -57,8 +60,9 @@
 														  ProjectDescription = a.Description,
 														  CreatedOn = a.CreatedOn,
 														  CreatedBy = b.UserName,
-														  Email = b.Email
-													  }).Distinct().ToList();
+														  Email = b.Email,
+                                                          IsOwner = Permission.IsUserOwnerOfProject(currentUserEmail, a.ProjectId)
+                                                      }).Distinct().ToList();
 				}
 
 
