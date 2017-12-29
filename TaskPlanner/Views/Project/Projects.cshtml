@@ -2,102 +2,130 @@
 @using TaskPlanner.Models
 @using Newtonsoft.Json
 @{
-	ViewData["Title"] = "Projects";
-	List<ProjectListObjects> storyData = new List<ProjectListObjects>();
-	if (Model != null && Model.ProjectListObjects != null && Model.ProjectListObjects.Count > 0)
-	{
-		storyData = Model.ProjectListObjects;
-	}
-	var storyDataValue = "[]";
-	if (storyData.Count > 0)
-	{
-		storyDataValue = JsonConvert.SerializeObject(storyData);
-	}
+    ViewData["Title"] = "Projects";
+    List<ProjectListObjects> storyData = new List<ProjectListObjects>();
+    if (Model != null && Model.ProjectListObjects != null && Model.ProjectListObjects.Count > 0)
+    {
+        storyData = Model.ProjectListObjects;
+    }
+    var storyDataValue = "[]";
+    if (storyData.Count > 0)
+    {
+        storyDataValue = JsonConvert.SerializeObject(storyData);
+    }
 }
 
 <style>
-	.page-sub-header {
-		margin-left: -15px;
-		margin-right: -15px;
-		min-height: 90px;
-		background: #fff;
-		padding-top: 15px;
-		box-shadow: 0 1px 1px -1px rgba(0,0,0,.34), 0 0 6px 0 rgba(0,0,0,.14);
-	}
+    .page-sub-header {
+        margin-left: -15px;
+        margin-right: -15px;
+        min-height: 90px;
+        background: #fff;
+        padding-top: 15px;
+        box-shadow: 0 1px 1px -1px rgba(0,0,0,.34), 0 0 6px 0 rgba(0,0,0,.14);
+    }
 
-	.page-header-title {
-		font-size: 16px;
-		font-weight: 100;
-		padding-left: 20px;
-		color: white;
-	}
+    .page-header-title {
+        font-size: 16px;
+        font-weight: 100;
+        padding-left: 20px;
+        color: white;
+    }
 
-	.tab.nav-tabs {
-		text-transform: uppercase;
-	}
+    .tab.nav-tabs {
+        text-transform: uppercase;
+    }
 
-	.no-bottom-border {
-		border-bottom: 0 !important;
-	}
+    .no-bottom-border {
+        border-bottom: 0 !important;
+    }
 
-	.nav.nav-tabs li {
-		background: 0;
-		border: 0;
-	}
+    .nav.nav-tabs li {
+        background: 0;
+        border: 0;
+    }
 
-	.tab.nav-tabs > li.active > a, .tab.nav-tabs > li.active > a:hover, .tab.nav-tabs > li.active > a:focus {
-		background-color: #4285f6;
-		color: white !important;
-		border: 0;
-		border-bottom: 3px solid white;
-		font-weight: 500;
-	}
+    .tab.nav-tabs > li.active > a, .tab.nav-tabs > li.active > a:hover, .tab.nav-tabs > li.active > a:focus {
+        background-color: #4285f6;
+        color: white !important;
+        border: 0;
+        border-bottom: 3px solid white;
+        font-weight: 500;
+    }
 
-	.tab.nav-tabs > li > a {
-		color: #ffffb3 !important;
-		font-weight: 400;
-	}
+    .tab.nav-tabs > li > a {
+        color: #ffffb3 !important;
+        font-weight: 400;
+    }
 
-		.tab.nav-tabs > li > a:hover, .tab.nav-tabs > li > a:focus {
-			background-color: #4285f6;
-			color: #ffffb3 !important;
-			border-color: transparent;
-		}
+        .tab.nav-tabs > li > a:hover, .tab.nav-tabs > li > a:focus {
+            background-color: #4285f6;
+            color: #ffffb3 !important;
+            border-color: transparent;
+        }
 
-	#yours {
-		padding-left: 10px;
-	}
+    #yours {
+        padding-left: 10px;
+    }
 
-	#progressDialogModal {
-		display: none;
-	}
+    #progressDialogModal {
+        display: none;
+    }
+
+    #addButton {
+        display: block !important;
+        float: right;
+        font-size: 14px;
+        height: 30px;
+        margin-bottom: 5px;
+        margin-top: 10px;
+        border: 0;
+        background: #4285f6;
+        box-shadow: none;
+        border-radius: 0px;
+        color: white;
+    }
+
+    .e-btn.e-flat {
+        color: #757575 !important;
+    }
+
+        .e-btn.e-flat.e-primary {
+            color: #ad5393 !important;
+        }
 </style>
 
 @section Scripts{
 
-	<script type="text/javascript">
+    <script type="text/javascript">
         $(document).ready(function () {
             storiesList = @Html.Raw(storyDataValue);
         });
 
 	System.import('ts/projects.ts').catch(console.error.bind(console));
-	</script>
+    </script>
 }
 
 <div class="row page-sub-header" style="margin-bottom: 0;padding-bottom: 0; background: #4285f6">
-	<div class="page-header-title">
-		<p>Projects</p>
-	</div>
-	<div style="margin-top: 10px;margin-bottom: -4px;">
-		<ul id="page-sub-header-menu-links" class="nav nav-tabs tab no-bottom-border" style="display:inline-block">
-			<li onclick="yoursClick('yours')" id="yours" class="active"><a id="yours" data-toggle="tab" href="#home">Your's</a></li>
-			<li onclick="favouritesClick('favourites')" id="favourites"><a data-toggle="tab" href="#menu1">Favourites</a></li>
-			<li onclick="allClick('all')" id="all"><a data-toggle="tab" href="#menu2">All</a></li>
-		</ul>
-	</div>
+    <div class="page-header-title">
+        <p>Projects</p>
+    </div>
+    <div style="margin-top: 10px;margin-bottom: -4px;">
+        <ul id="page-sub-header-menu-links" class="nav nav-tabs tab no-bottom-border" style="display:inline-block">
+            <li onclick="yoursClick('yours')" id="yours" class="active"><a id="yours" data-toggle="tab" href="#home">Your's</a></li>
+            <li onclick="favouritesClick('favourites')" id="favourites"><a data-toggle="tab" href="#menu1">Favourites</a></li>
+            <li onclick="allClick('all')" id="all"><a data-toggle="tab" href="#menu2">All</a></li>
+        </ul>
+    </div>
+</div>
+<div id="target">
+    <button id="addButton" onclick="myFunction()" style="margin-bottom:10px">Add Project</button>
+</div>
+<div id="projectmodalDialog">
+
 </div>
 
-<div id="projecttabGrid" style="padding-top:20px;">
-	@Html.Partial("~/Views/Project/_projects.cshtml", Model)
+<div id="projecttabGrid" style="padding-top:50px;">
+    @Html.Partial("~/Views/Project/_projects.cshtml", Model)
 </div>
 

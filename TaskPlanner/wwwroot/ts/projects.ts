@@ -1,6 +1,9 @@
 ﻿import { KeyboardEventArgs } from '@syncfusion/ej2-base';
 import { Button } from '@syncfusion/ej2-buttons';
 import { Filter, Grid, Page, QueryCellInfoEventArgs, Sort, Toolbar } from '@syncfusion/ej2-grids';
+import { Dialog } from '@syncfusion/ej2-popups';
+import { Ajax } from '@syncfusion/ej2-base';
+
 Grid.Inject(Sort, Page, Filter, Toolbar);
 declare let storiesList: any;
 
@@ -102,3 +105,122 @@ function loadprojectsTab(projectId) {
 		url: url,
 	});
 }
+
+
+    let ajax: Ajax = new Ajax("/project/addproject", "GET", true);
+    ajax.send().then();
+    ajax.onSuccess = (data: string): void => {
+        ;
+        let newdialogObj: Dialog = new Dialog({
+            width: '600px',
+            height: '300px',
+            header: 'Add Project',
+            //created: dlgCreate,
+            content: data,
+            closeOnEscape: false,
+            target: document.getElementById('targetbody'),
+            isModal: true,
+            showCloseIcon: true,
+            animationSettings: { effect: 'None' },
+            buttons: [{
+                click: clearButtonClick,
+                buttonModel: { id: 'addprojectClearButton', content: 'Clear', cssClass: 'e-flat dlg-btn-secondary' },
+            },
+            {
+                click: cancelButtonClick,
+                buttonModel: { id: 'addprojectCancelButton', content: 'Cancel', cssClass: 'e-flat dlg-btn-secondary' },
+            },
+            {
+                click: addButtonClick,
+                buttonModel: { id: 'addprojectAddbutton', content: 'Add', cssClass: 'e-flat', isPrimary: true },
+            }],
+            open: addMilestonedialogOpen,
+        });
+        newdialogObj.appendTo('#projectmodalDialog');
+        newdialogObj.hide();
+
+        document.getElementById('projectmodalDialog').style.maxHeight = '300px';
+
+        function addButtonClick(): void {
+            $('#erroraddproject').css('display', 'none');
+            progressModel.style.cssText = "display : block";
+            document.getElementById("errorprojectDescription").style.visibility = "hidden";
+            let canCreateproject = true;
+
+            let errorprojectName = document.getElementById('errorprojectName') as HTMLInputElement;
+
+            let projectNameContainer = document.getElementById('projectnameinput') as HTMLInputElement;
+            let descriptionContainer = document.getElementById('descriptioninput') as HTMLInputElement;
+           
+            if (projectNameContainer.value !== "" ) {
+
+                $.ajax({
+                    dataType: 'json',
+                    type: "GET",
+                    url: '/project/updateproject',
+                    data: {
+                        'description': descriptionContainer.value, 'projectname': projectNameContainer.value
+                    },
+                    error: function (response) {
+                        $('#erroraddproject').text("Unexpected error occured");
+                        $('#erroraddproject').css('display', 'block');
+                    },
+                    success: function (response) {
+                        if (response.status === false) {
+                            if (response.isprojectNameExists === true) {
+                                document.getElementById('errorprojectName').innerHTML = response.result;
+                                document.getElementById("errorprojectName").style.display = "block";
+                            }
+                            else {
+                                $('#erroraddproject').text(response.result);
+                                $('#erroraddproject').css('display', 'block');
+                            }
+                        }
+                        else if (response.status === true) {
+                            toastr.success(response.message);
+                            newdialogObj.hide();
+                            location.reload();
+                        }
+                    },
+                    complete: function () {                        
+                    progressModel.style.cssText = "display : none";
+                    },
+                });
+
+            }
+            else {
+               // document.getElementById('progressDialogModal').style.display = 'none';
+                if (projectNameContainer.value === "") {
+                    errorprojectName.innerHTML = "Required Field";
+                    errorprojectName.style.display = "block";
+                }  
+            }
+
+        }
+
+        function cancelButtonClick(): void {
+            newdialogObj.hide();
+        }
+
+        function addMilestonedialogOpen(): void {
+            (document.getElementsByTagName('body')[0] as HTMLElement).classList.add('mainscroller-hide');
+        }
+        function clearButtonClick(): void {
+            $('#erroraddproject').css('display', 'none');
+            let projectNameContainer = document.getElementById('projectnameinput') as HTMLInputElement;
+            projectNameContainer.value = "";
+
+            let errorprojectName = document.getElementById('errorprojectName') as HTMLInputElement;
+            errorprojectName.value = "";
+            errorprojectName.innerHTML = "";
+
+            let descriptionContainer = document.getElementById('descriptioninput') as HTMLInputElement;
+            descriptionContainer.value = "";
+
+        }
+
+        (<any>window).myFunction = function () {
+            newdialogObj.show();
+        };
+    }
+

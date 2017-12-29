@@ -113,8 +113,19 @@ namespace TaskPlanner
 				routes.MapRoute(
 					name: "ProjectsTab",
 					template: "projecttab/{projectId?}",
-					defaults: new { controller = "Project", action = "LoadProject" });
-			});
+					defaults: new { controller = "Project", action = "LoadProject" });			
+
+                routes.MapRoute(
+                    name: "Add project",
+                    template: "project/addproject",
+                    defaults: new { controller = "Project", action = "Newproject" });
+
+                routes.MapRoute(
+                name: "Update Project",
+                template: "project/updateproject",
+                defaults: new { controller = "Project", action = "AddProjectAsync" });
+
+            });
         }
     }
 }
