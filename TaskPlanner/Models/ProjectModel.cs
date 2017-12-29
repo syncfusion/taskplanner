@@ -64,5 +64,28 @@
 
 			return projectList;
 		}
-	}
+
+        public static ProjectObjects GetProjectDetails(int projectId)
+        {
+            var projectList = new ProjectObjects();
+
+            using (var context = new TaskPlannerEntities())
+            {
+                    projectList.ProjectListObjects = (from a in context.Projects.Where(x => (x.IsActive && x.ProjectId == projectId))
+                                                      from b in context.AspNetUsers.Where(y => y.Id == a.CreatedBy)
+                                                      select new ProjectListObjects
+                                                      {
+                                                          ProjectId = a.ProjectId,
+                                                          ProjectName = a.ProjectName,
+                                                          ProjectDescription = a.Description,
+                                                          CreatedOn = a.CreatedOn,
+                                                          CreatedBy = b.UserName,
+                                                          Email = b.Email
+                                                      }).Distinct().ToList();
+                
+            }
+
+            return projectList;
+        }
+    }
 }
