@@ -61,6 +61,9 @@ namespace TaskPlanner.Base.Stories
                                   ThemeName = theme.ThemeName,
                                   EpicName = epic.EpicName,
                                   Priority = priority.PriorityName,
+                                  Milestone = story.Milestone,
+                                  Release = story.Release,
+                                  Status = story.Status,
                                   Benifit = story.Benefit,
                                   Penalty = story.Penality,
                                   StoryPoints = story.StoryPoints,
@@ -108,6 +111,9 @@ namespace TaskPlanner.Base.Stories
                             storyDetailsObj.ThemeId = newStoryDetails.ThemeId;
                             storyDetailsObj.EpicId = newStoryDetails.EpicId;
                             storyDetailsObj.PriorityId = newStoryDetails.PriorityId;
+                            storyDetailsObj.Milestone = newStoryDetails.Milestone;
+                            storyDetailsObj.Release = newStoryDetails.Release;
+                            storyDetailsObj.Status = newStoryDetails.Status;
                             storyDetailsObj.StoryPoints = newStoryDetails.StoryPoints;
                             storyDetailsObj.Benefit = newStoryDetails.Benifit;
                             storyDetailsObj.Penality = newStoryDetails.Penalty;
@@ -132,6 +138,9 @@ namespace TaskPlanner.Base.Stories
                             ThemeId = newStoryDetails.ThemeId,
                             EpicId = newStoryDetails.EpicId,
                             PriorityId = newStoryDetails.PriorityId,
+                            Milestone = newStoryDetails.Milestone,
+                            Release = newStoryDetails.Release,
+                            Status = newStoryDetails.Status,
                             StoryPoints = newStoryDetails.StoryPoints,
                             Benefit = newStoryDetails.Benifit,
                             Penality = newStoryDetails.Penalty,

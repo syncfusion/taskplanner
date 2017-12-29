@@ -1,5 +1,6 @@
 ﻿import { enableRipple } from '@syncfusion/ej2-base';
 import { DataManager, UrlAdaptor } from '@syncfusion/ej2-data';
+import { DropDownList } from '@syncfusion/ej2-dropdowns';
 import { Filter, Grid, Page, Pager, QueryCellInfoEventArgs, RowDataBoundEventArgs, Sort, SortEventArgs, Toolbar, ExcelExport, Group, FilterType, Resize, ColumnChooser, Edit  } from '@syncfusion/ej2-grids';
 import { Dialog } from '@syncfusion/ej2-popups';
 import { ClickEventArgs } from '@syncfusion/ej2-navigations';
@@ -14,6 +15,15 @@ let templatedata: DataManager = new DataManager({
     requestType: 'GET',
     url: '/storieslist/' + projectId,
 });
+
+let statusElem: HTMLElement;
+let statusObj: DropDownList;
+let status: { [key: string]: Object }[] = [
+    { statusName: 'Open', statusId: '1' },
+    { statusName: 'In Progress', statusId: '2' },
+    { statusName: 'Hold', statusId: '3' },
+    { statusName: 'Closed', statusId: '4' }
+];
 
 let storiesList: Grid = new Grid({
     actionBegin: actionBegin,
@@ -33,9 +43,33 @@ let storiesList: Grid = new Grid({
     columns: [
         { field: 'StoryId', headerText: 'Story Id', showInColumnChooser: false, isPrimaryKey: true, type: "number", visible: false },
         { field: 'TaskId', headerText: 'Task Id', type: "number" },
-        { field: 'Title', headerText: 'Title', width: '150', type: "string", validationRules: { required: true } },
+        { field: 'Title', headerText: 'Title', type: "string", validationRules: { required: true } },
         { field: 'ThemeName', headerText: 'Theme', type: "string" },
         { field: 'EpicName', headerText: 'Epic', type: "string" },
+        { field: 'Milestone', headerText: 'Milestone', type: "string" },
+        { field: 'Release', headerText: 'Release', type: "string" },
+        {
+            field: 'Status', headerText: 'Status', type: "string", width: 150, edit: {
+                create: () => {
+                    statusElem = document.createElement('input');
+                    return statusElem;
+                },
+                read: () => {
+                    return statusObj.text;
+                },
+                destroy: () => {
+                    statusObj.destroy();
+                },
+                write: () => {
+                    statusObj = new DropDownList({
+                        dataSource: status,
+                        fields: { value: 'statusId', text: 'statusName' },
+                        placeholder: 'Select status',
+                        floatLabelType: 'Never'
+                    });
+                    statusObj.appendTo(statusElem);
+                }
+            } },
         { field: 'Priority', headerText: 'Priority', type: "string" },
         { field: 'Benifit', headerText: 'Benefit', type: "number" },
         { field: 'Penalty', headerText: 'Penalty', type: "number" },

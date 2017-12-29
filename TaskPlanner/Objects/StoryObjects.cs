@@ -43,6 +43,21 @@ namespace TaskPlanner.Objects
         public string Priority { get; set; }
 
         /// <summary>
+        /// Gets or sets the Milestone
+        /// </summary>
+        public string Milestone { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Release
+        /// </summary>
+        public string Release { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Status
+        /// </summary>
+        public string Status { get; set; }
+
+        /// <summary>
         /// Gets or sets the Benifit
         /// </summary>
         public int? Benifit { get; set; }
