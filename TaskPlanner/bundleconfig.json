@@ -8,6 +8,7 @@
   {
     "outputFileName": "wwwroot/css/site.min.css",
     "inputFiles": [
+      "wwwroot/css/Plugin/toastr.css",
       "wwwroot/css/site.css"
     ]
   },
