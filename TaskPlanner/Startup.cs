@@ -110,6 +110,11 @@ namespace TaskPlanner
                     template: "storieslist/{projectId?}",
                     defaults: new { controller = "Stories", action = "StoriesList" });
 
+				routes.MapRoute(
+					name: "ProjectsTab",
+					template: "projecttab/{projectId?}",
+					defaults: new { controller = "Project", action = "LoadProject" });			
+
                 routes.MapRoute(
                     name: "Add project",
                     template: "project/addproject",
