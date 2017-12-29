@@ -102,6 +102,7 @@
                     {
                         if (favouriteObj != null && favouriteObj.Count > 0 && favouriteObj.Any(i => i.IsActive == false))
                         {
+                            favouriteObj.Where(i => i.IsActive == false).ToList().ForEach(i => i.UpdatedOn = DateTime.Now);
                             favouriteObj.Where(i => i.IsActive == false).ToList().ForEach(i => i.IsActive = true);
                         }
                         else
@@ -120,6 +121,7 @@
                     {
                         if (favouriteObj != null && favouriteObj.Count > 0 && favouriteObj.Any(i => i.IsActive == true))
                         {
+                            favouriteObj.Where(i => i.IsActive == true).ToList().ForEach(i => i.UpdatedOn = DateTime.Now);
                             favouriteObj.Where(i => i.IsActive == true).ToList().ForEach(i => i.IsActive = false);
                         }
                     }
@@ -152,6 +154,7 @@
                     {
                         if (projectPermissionObj != null && projectPermissionObj.Count > 0 && projectPermissionObj.Any(i => i.IsActive == false))
                         {
+                            projectPermissionObj.Where(i => i.IsActive == false).ToList().ForEach(i => i.UpdatedOn = DateTime.Now);
                             projectPermissionObj.Where(i => i.IsActive == false).ToList().ForEach(i => i.IsActive = true);
                         }
                         else
@@ -170,6 +173,7 @@
                     {
                         if (projectPermissionObj != null && projectPermissionObj.Count > 0 && projectPermissionObj.Any(i => i.IsActive == true))
                         {
+                            projectPermissionObj.Where(i => i.IsActive == true).ToList().ForEach(i => i.UpdatedOn = DateTime.Now);
                             projectPermissionObj.Where(i => i.IsActive == true).ToList().ForEach(i => i.IsActive = false);
                         }
                     }

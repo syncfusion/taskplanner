@@ -61,5 +61,15 @@ namespace TaskPlanner.Objects
         /// Gets or sets the Tag
         /// </summary>
         public string Tag { get; set; }
+        public int ProjectId { get; set; }
+        public int? PriorityId { get; set; }
+        public int? ThemeId { get; set; }
+        public int? EpicId { get; set; }
+        public int? SortOrder { get; set; }
+        public string CreatedBy { get; set; }
+        public string AssigneeName { get; set; }
+        public string SprintName { get; set; }
+        public DateTime CreatedOn { get; set; }
+
     }
 }
