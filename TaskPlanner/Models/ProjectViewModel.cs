@@ -192,5 +192,33 @@
             return result;
         }
 
-    }
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="permissionId"></param>
+		/// <returns></returns>
+		public TransactionResult RemoveProjectPermission(int permissionId)
+		{
+			var result = new TransactionResult();
+			try
+			{
+				using (var context = new TaskPlannerEntities())
+				{
+					var projectPermissionObj = (from projectPermissionDetails in context.ProjectPermissions.Where(i => i.PermissionId == permissionId)
+												select projectPermissionDetails).FirstOrDefault();
+					projectPermissionObj.IsActive = false;
+					context.SaveChanges();
+				}
+
+				result.IsSuccess = true;
+			}
+			catch (Exception ex)
+			{
+				result.IsSuccess = false;
+				result.Exception = ex;
+			}
+
+			return result;
+		}
+	}
 }

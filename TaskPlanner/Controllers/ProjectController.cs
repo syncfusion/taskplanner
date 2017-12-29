@@ -187,5 +187,31 @@ namespace TaskPlanner.Controllers
 			var list = ProjectModel.GetProjectSharedList();
 			return this.PartialView("~/Views/Project/_ShareList.cshtml", list);
 		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="permissionId"></param>
+		/// <returns></returns>
+		public JsonResult RemovePermission(int permissionId)
+		{
+			var res = new ProjectViewModel().RemoveProjectPermission(permissionId);
+			if (res.IsSuccess)
+			{
+				return this.Json(new
+				{
+					status = true,
+					message = "Project permission is removed."
+				});
+			}
+			else
+			{
+				return this.Json(new
+				{
+					status = false,
+					message = "Unexpected error occurred."
+				});
+			}
+		}
 	}
 }

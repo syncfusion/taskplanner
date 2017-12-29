@@ -131,7 +131,7 @@
 						{
 							PermissionId = a.PermissionId,
 							EmailId = a.EmailId
-						}).Distinct().ToList();
+						}).Distinct().OrderBy(x => x.EmailId).ToList();
 			}				
 			return list;
 		}

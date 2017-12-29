@@ -337,26 +337,26 @@ function loadprojectsTab(projectId) {
 				//	erroremail.style.display = "block";
 				//}
 				//else {
-					$.ajax({
-						dataType: 'json',
-						type: "GET",
-						url: '/project/shareemail',
-						data: {
-							'projectId': sharedialogObj.id, 'email': emailContainer.value
-						},
-						error: function (response) {
+				$.ajax({
+					dataType: 'json',
+					type: "GET",
+					url: '/project/shareemail',
+					data: {
+						'projectId': sharedialogObj.id, 'email': emailContainer.value
+					},
+					error: function (response) {
 
-						},
-						success: function (response) {
-							if (response.status === true) {																
-								sharedialogObj.show();
-							}							
-						},
-						complete: function () {
+					},
+					success: function (response) {
+						if (response.status === true) {
+							sharedialogObj.show();						
+						}
+					},
+					complete: function () {
 
-						},
-					});
-				}				
+					},
+				});
+			}
 			//}
 			else {
 				if (emailContainer.value === "") {
@@ -365,3 +365,33 @@ function loadprojectsTab(projectId) {
 				}
 			}
 		};
+
+		(<any>window).deleteShareProjectClick = function (id) {
+
+			var confirm = (<any>window).confirm("Are you sure you want to delete project permission? Once deleted it cannot be recovered.");
+
+			if (!confirm)
+				return false;
+			$.ajax({
+				dataType: 'json',
+				type: "POST",
+				url: '/project/removepermission',
+				data: {
+					'permissionId': id
+				},
+				error: function (response) {
+
+				},
+				success: function (response) {
+					if (response.status === true) {
+						sharedialogObj.hide();		
+						toastr.success(response.message);
+					}
+				},
+				complete: function () {
+
+				},
+			});
+		};
+	}
+

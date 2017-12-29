@@ -149,6 +149,11 @@ namespace TaskPlanner
 					name: "Share Email",
 					template: "project/shareemail/{projectId?}/{email?}",
 					defaults: new { controller = "Project", action = "ShareEmail" });
+
+				routes.MapRoute(
+					name: "Remove Permission",
+					template: "project/removepermission/{permissionId?}",
+					defaults: new { controller = "Project", action = "RemovePermission" });
 			});
         }
     }
