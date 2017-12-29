@@ -9,6 +9,7 @@
 
     public interface IProjectViewModel
     {
+        TransactionResult UpdateProjectDetails(ProjectListObjects newProjectDetails);
         TransactionResult DeleteProject(int projectId);
         TransactionResult UpdateFavouriteList(int projectId, string userId, bool isFavouriteListAdded);
         TransactionResult UpdateProjectPermissionList(int projectId, string emailId, bool isProjectPermissionListAdded);
@@ -16,6 +17,52 @@
 
     public class ProjectViewModel : IProjectViewModel
     {
+        public TransactionResult UpdateProjectDetails(ProjectListObjects newProjectDetails)
+        {
+            var result = new TransactionResult();
+
+            try
+            {
+                using (var context = new TaskPlannerEntities())
+                {
+                    if (newProjectDetails != null && newProjectDetails.ProjectId > 0)
+                    {
+                        var projectDetailsObj = (from projects in context.Projects.Where(i => i.ProjectId == newProjectDetails.ProjectId && i.IsActive)
+                                                 select projects).FirstOrDefault();
+                        if (projectDetailsObj != null)
+                        {
+                            projectDetailsObj.ProjectName = newProjectDetails.ProjectName;
+                            projectDetailsObj.Description = newProjectDetails.ProjectDescription;
+                            projectDetailsObj.CreatedBy = newProjectDetails.CreatedBy;
+                        }
+                    }
+                    else
+                    {
+                        var newProject = new Project()
+                        {
+                            ProjectName = newProjectDetails.ProjectName,
+                            Description = newProjectDetails.ProjectDescription,
+                            CreatedBy = newProjectDetails.CreatedBy,
+                            Owner = newProjectDetails.CreatedBy,
+                            CreatedOn = DateTime.Now,
+                            IsActive = true
+                        };
+                        context.Projects.Add(newProject);
+                    }
+
+                    context.SaveChanges();
+                }
+                result.IsSuccess = true;
+            }
+            catch (Exception ex)
+            {
+                result.IsSuccess = false;
+                result.Exception = ex;
+            }
+
+            return result;
+        }
+
         public TransactionResult DeleteProject(int projectId)
         {
             var result = new TransactionResult();
@@ -99,7 +146,7 @@
                 using (var context = new TaskPlannerEntities())
                 {
                     var projectPermissionObj = (from projectPermissionDetails in context.ProjectPermissions.Where(i => i.ProjectId == projectId && i.EmailId == emailId)
-                                        select projectPermissionDetails).ToList();
+                                                select projectPermissionDetails).ToList();
 
                     if (isProjectPermissionListAdded)
                     {
@@ -112,7 +159,7 @@
                             var projectPermissionListObj = new ProjectPermission()
                             {
                                 ProjectId = projectId,
-                                EmailId=emailId,
+                                EmailId = emailId,
                                 UpdatedOn = DateTime.Now,
                                 IsActive = true
                             };
@@ -140,7 +187,6 @@
 
             return result;
         }
-
 
     }
 }
