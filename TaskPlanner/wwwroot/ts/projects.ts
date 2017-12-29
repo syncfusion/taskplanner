@@ -27,10 +27,59 @@ storyListGrid.appendTo('#projectGrid');
 	alert(id);
 };
 (<any>window).deleteClick = function (id) {
-	alert(id);
+    
+    
+    var confirm = (<any>window).confirm("Are you sure you want to delete project? Once deleted it cannot be recovered.");
+
+    if (!confirm)
+        return false;
+
+    $.ajax({
+        data: { 'projectId': id},
+        success: function (response) {
+            if (response.isSuccess === true) {
+               // window.location.href = "/products#all";
+                toastr.success(response.message);
+            }
+            else {
+                toastr.error(response.message);
+            }
+        },
+        error: function () {
+            toastr.error("Unexpected error occured");
+        },
+        complete: function () {
+        },
+        type: 'POST',
+        timeout: 180000,
+        url: '/project/delete/' + id,
+    });
+
 };
 (<any>window).faviouriteClick = function (id) {
-	alert(id);
+
+    
+
+    $.ajax({
+        data: { 'projectId': id },
+        success: function (response) {
+            if (response.isSuccess === true) {
+                // window.location.href = "/products#all";
+                toastr.success(response.message);
+            }
+            else {
+                toastr.error(response.message);
+            }
+        },
+        error: function () {
+            toastr.error("Unexpected error occured");
+        },
+        complete: function () {
+        },
+        type: 'POST',
+        timeout: 180000,
+        url: '/project/favourite/' + id,
+    });
 };
 (<any>window).shareClick = function (id) {
 	alert(id);
