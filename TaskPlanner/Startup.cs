@@ -142,7 +142,7 @@ namespace TaskPlanner
 
 				routes.MapRoute(
 					name: "Share project",
-					template: "project/shareproject",
+					template: "project/shareproject/{projectId?}",
 					defaults: new { controller = "Project", action = "ShareProject" });
 
 				routes.MapRoute(

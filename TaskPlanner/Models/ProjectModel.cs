@@ -121,12 +121,12 @@
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		public static ProjectShareObjects GetProjectSharedList()
+		public static ProjectShareObjects GetProjectSharedList(int projectId)
 		{
 			var list = new ProjectShareObjects();
 			using (var context = new TaskPlannerEntities())
 			{
-				list.ProjectShareListObjects = (from a in context.ProjectPermissions.Where(x => (x.IsActive))
+				list.ProjectShareListObjects = (from a in context.ProjectPermissions.Where(x => (x.IsActive) && x.ProjectId== projectId) 
 						select new ProjectShareListObjects
 						{
 							PermissionId = a.PermissionId,

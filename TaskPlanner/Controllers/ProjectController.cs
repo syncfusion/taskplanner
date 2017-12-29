@@ -148,9 +148,9 @@ namespace TaskPlanner.Controllers
 		/// Shareproject() - Return the partial view
 		/// </summary>
 		/// <returns>partial view</returns>
-		public PartialViewResult ShareProject()
+		public PartialViewResult ShareProject(int projectId)
 		{
-			var list = ProjectModel.GetProjectSharedList();
+			var list = ProjectModel.GetProjectSharedList(projectId);
 			//return this.PartialView("~/Views/Project/_ShareList.cshtml", list);
 			return this.PartialView("~/Views/Project/_ShareProject.cshtml", list);
 		}
@@ -182,9 +182,9 @@ namespace TaskPlanner.Controllers
 			}
 		}
 
-		public ActionResult GetShareProjectList()
+		public ActionResult GetShareProjectList(int projectId)
 		{
-			var list = ProjectModel.GetProjectSharedList();
+			var list = ProjectModel.GetProjectSharedList(projectId);
 			return this.PartialView("~/Views/Project/_ShareList.cshtml", list);
 		}
 
