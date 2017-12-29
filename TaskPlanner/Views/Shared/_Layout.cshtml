@@ -9,6 +9,7 @@
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
         <link href="~/css/ej2/material.css" rel="stylesheet" />
+        <link href="~/css/Plugin/toastr.css" rel="stylesheet" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     </environment>
@@ -61,6 +62,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/0.19.38/system.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
         <script src="~/js/ej2/ej2.config.js"></script>
+        <script src="~/js/Others/toastr.min.js" asp-append-version="true"></script>
     </environment>
     <environment exclude="Development">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
@@ -78,6 +80,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/0.19.38/system.js"></script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
         <script src="~/dist/jsminify/ej2.config.min.js" asp-append-version="true"></script>
+        <script src="~/js/Others/toastr.min.js" asp-append-version="true"></script>
     </environment>
 
     @RenderSection("Scripts", required: false)
