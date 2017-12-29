@@ -19,7 +19,7 @@ namespace TaskPlanner.Entity
     {
         [Key]
         public int StoryId { get; set; }
-        public int TaskId { get; set; }
+        public Nullable<int> TaskId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public int ProjectId { get; set; }
