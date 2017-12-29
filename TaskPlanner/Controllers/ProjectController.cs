@@ -22,7 +22,6 @@ namespace TaskPlanner.Controllers
 			return this.View("~/Views/Project/Projects.cshtml", projectList);
 		}
 
-
         [HttpPost("/project/delete/{projectId}", Name = "Project_Delete")] 
         public JsonResult DeleteProject(int projectId)
         {
@@ -62,7 +61,7 @@ namespace TaskPlanner.Controllers
         }
 
         /// <summary>
-        /// Get New Product Details
+        /// Newproject() - Return the partial view
         /// </summary>
         /// <returns>partial view</returns>
         public PartialViewResult Newproject()
@@ -70,6 +69,12 @@ namespace TaskPlanner.Controllers
             return this.PartialView("~/Views/Project/_addProject.cshtml");
         }
 
+        /// <summary>
+        /// AddProjectAsync() - Add project details in DB
+        /// </summary>
+        /// <param name="description"></param>
+        /// <param name="projectname"></param>
+        /// <returns></returns>
         public JsonResult AddProjectAsync(string description = "", string projectname = "")
         {
             ProjectListObjects objects = new ProjectListObjects();
