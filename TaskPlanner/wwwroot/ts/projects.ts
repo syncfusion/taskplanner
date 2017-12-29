@@ -24,7 +24,7 @@ let progressModel: HTMLInputElement = document.getElementById('progressDialogMod
         data: { 'projectId': id},
         success: function (response) {
             if (response.isSuccess === true) {
-               // window.location.href = "/products#all";
+                (<any>window).location.reload();
                 toastr.success(response.message);
             }
             else {
@@ -42,16 +42,15 @@ let progressModel: HTMLInputElement = document.getElementById('progressDialogMod
     });
 
 };
-(<any>window).faviouriteClick = function (id) {
+(<any>window).faviouriteClick = function (id, isFavourite =false) { 
 
-    
 
     $.ajax({
-        data: { 'projectId': id },
+        data: { 'projectId': id, 'isFavourite': isFavourite },
         success: function (response) {
             if (response.isSuccess === true) {
-                // window.location.href = "/products#all";
                 toastr.success(response.message);
+                (<any>window).location.reload();
             }
             else {
                 toastr.error(response.message);
@@ -64,7 +63,7 @@ let progressModel: HTMLInputElement = document.getElementById('progressDialogMod
         },
         type: 'POST',
         timeout: 180000,
-        url: '/project/favourite/' + id,
+        url: '/project/favourite/',
     });
 };
 (<any>window).shareClick = function (id) {

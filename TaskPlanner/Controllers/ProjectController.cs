@@ -40,7 +40,7 @@ namespace TaskPlanner.Controllers
                 return this.Json(new { isSuccess = false, message = "Unexpected error occurred" }); 
         }
 
-        [HttpPost]
+        [HttpPost("/project/favourite/", Name = "Project_Favourite")]
         public JsonResult UpdateFavourite(int projectId,bool isFavourite)
         {
 
