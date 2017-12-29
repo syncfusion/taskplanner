@@ -109,7 +109,12 @@ namespace TaskPlanner
                     name: "StoriesList",
                     template: "storieslist/{projectId?}",
                     defaults: new { controller = "Stories", action = "StoriesList" });
-            });
+
+				routes.MapRoute(
+					name: "ProjectsTab",
+					template: "projecttab/{projectId?}",
+					defaults: new { controller = "Project", action = "LoadProject" });
+			});
         }
     }
 }

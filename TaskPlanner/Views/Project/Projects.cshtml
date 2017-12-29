@@ -1,4 +1,5 @@
 ﻿@model TaskPlanner.Models.ProjectObjects
+@using TaskPlanner.Models
 @using Newtonsoft.Json
 @{
 	ViewData["Title"] = "Projects";
@@ -12,10 +13,7 @@
 	{
 		storyDataValue = JsonConvert.SerializeObject(storyData);
 	}
-
 }
-
-
 
 <style>
 	.page-sub-header {
@@ -60,30 +58,30 @@
 		font-weight: 400;
 	}
 
-	.tab.nav-tabs > li > a:hover, .tab.nav-tabs > li > a:focus {
-		background-color: #4285f6;
-		color: #ffffb3 !important;
-		border-color: transparent;
-	}
+		.tab.nav-tabs > li > a:hover, .tab.nav-tabs > li > a:focus {
+			background-color: #4285f6;
+			color: #ffffb3 !important;
+			border-color: transparent;
+		}
 
 	#yours {
-		padding-left: 20px;
+		padding-left: 10px;
 	}
 
-    #progressDialogModal {
-        display: none !important;
-    }
+	#progressDialogModal {
+		display: none;
+	}
 </style>
 
 @section Scripts{
 
-<script type="text/javascript">
-        $(document).ready(function () {         
+	<script type="text/javascript">
+        $(document).ready(function () {
             storiesList = @Html.Raw(storyDataValue);
         });
 
 	System.import('ts/projects.ts').catch(console.error.bind(console));
-</script>
+	</script>
 }
 
 <div class="row page-sub-header" style="margin-bottom: 0;padding-bottom: 0; background: #4285f6">
@@ -92,29 +90,14 @@
 	</div>
 	<div style="margin-top: 10px;margin-bottom: -4px;">
 		<ul id="page-sub-header-menu-links" class="nav nav-tabs tab no-bottom-border" style="display:inline-block">
-			<li class="active"><a id="yours" data-toggle="tab" href="#home">Your's</a></li>
-			<li><a data-toggle="tab" href="#menu1">Favourites</a></li>
-			<li><a data-toggle="tab" href="#menu2">All</a></li>
+			<li onclick="yoursClick('yours')" id="yours" class="active"><a id="yours" data-toggle="tab" href="#home">Your's</a></li>
+			<li onclick="favouritesClick('favourites')" id="favourites"><a data-toggle="tab" href="#menu1">Favourites</a></li>
+			<li onclick="allClick('all')" id="all"><a data-toggle="tab" href="#menu2">All</a></li>
 		</ul>
 	</div>
 </div>
 
-@*<div class="tab-content">
-	<div id="home" class="tab-pane fade in active">
-		<h3>Your's</h3>
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-	</div>
-	<div id="menu1" class="tab-pane fade">
-		<h3>Favourites</h3>
-		<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-	</div>
-	<div id="menu2" class="tab-pane fade">
-		<h3>All</h3>
-		<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
-	</div>
-</div>*@
-
-<div style="padding-top:20px;">
+<div id="projecttabGrid" style="padding-top:20px;">
 	@Html.Partial("~/Views/Project/_projects.cshtml", Model)
 </div>
 

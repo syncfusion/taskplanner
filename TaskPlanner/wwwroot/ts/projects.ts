@@ -4,24 +4,7 @@ import { Filter, Grid, Page, QueryCellInfoEventArgs, Sort, Toolbar } from '@sync
 Grid.Inject(Sort, Page, Filter, Toolbar);
 declare let storiesList: any;
 
-function tooltip(querycell: QueryCellInfoEventArgs) {
-	if (querycell.data[querycell.column.field]) {
-		querycell.cell.setAttribute('title', querycell.data[querycell.column.field]);
-	}
-}
-
-
-let storyListGrid: Grid = new Grid({
-	rowTemplate: '#rowtemplate',
-	columns: [
-		{ field: 'ProjectId' },
-		{ field: 'ProjectName' },
-		{ field: 'ProjectDescription' },
-	],
-	dataSource: storiesList,
-	queryCellInfo: tooltip,
-});
-storyListGrid.appendTo('#projectGrid');
+let progressModel: HTMLInputElement = document.getElementById('progressDialogModal') as HTMLInputElement;
 
 (<any>window).editClick = function (id) {
 	alert(id);
@@ -88,11 +71,34 @@ storyListGrid.appendTo('#projectGrid');
 	alert(id);
 };
 
-(<any>window).gridRowClick = function (row) {
-	$.each($(".grid-row"), function (key, value) {	
-		$(this).removeClass('active');
-	});
-	$(row).addClass('active');
-
-	window.location.href = "/";
+(<any>window).favouritesClick = function (id) {
+	loadprojectsTab(id);
 };
+
+(<any>window).yoursClick = function (id) {
+	loadprojectsTab(id);
+};
+
+(<any>window).allClick = function (id) {
+	loadprojectsTab(id);
+};
+
+function loadprojectsTab(projectId) {
+	progressModel.style.cssText = "display : block";
+	document.getElementById('projecttabGrid').innerHTML = "";
+	let url = "/projecttab/";
+	$.ajax({
+		data: {
+			'projectId': projectId,
+		},
+		error: function (response) {
+
+		},
+		success: function (response) {
+			$('#projecttabGrid').html(response);
+			progressModel.style.cssText = "display : none";
+		},
+		type: "POST",
+		url: url,
+	});
+}

@@ -61,5 +61,13 @@ namespace TaskPlanner.Controllers
                 return this.Json(new { isSuccess = false, message = "Unexpected error occurred" });
         }
 
-    }
+		[HttpPost]
+		public ActionResult LoadProject(string projectId)
+		{
+			var currentUserEmail = User.Identity.Name;
+			var projectList = ProjectModel.GetProjectList(projectId, currentUserEmail);
+			return this.PartialView("~/Views/Project/_projects.cshtml", projectList);
+		}
+
+	}
 }
