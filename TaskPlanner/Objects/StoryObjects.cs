@@ -15,7 +15,7 @@ namespace TaskPlanner.Objects
         /// <summary>
         /// Gets or sets the Task Id
         /// </summary>
-        public int TaskId { get; set; }
+        public int? TaskId { get; set; }
 
         /// <summary>
         /// Gets or sets the Story Title

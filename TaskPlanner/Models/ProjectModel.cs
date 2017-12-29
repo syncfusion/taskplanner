@@ -116,5 +116,24 @@
 
             return projectList;
         }
-    }
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public static ProjectShareObjects GetProjectSharedList()
+		{
+			var list = new ProjectShareObjects();
+			using (var context = new TaskPlannerEntities())
+			{
+				list.ProjectShareListObjects = (from a in context.ProjectPermissions.Where(x => (x.IsActive))
+						select new ProjectShareListObjects
+						{
+							PermissionId = a.PermissionId,
+							EmailId = a.EmailId
+						}).Distinct().ToList();
+			}				
+			return list;
+		}
+	}
 }
