@@ -41,15 +41,20 @@ let storiesList: Grid = new Grid({
     editSettings: { allowEditing: true, allowAdding: true, allowDeleting: true, mode: 'normal' },
     groupSettings: { showDropArea: true },
     columns: [
-        { field: 'StoryId', headerText: 'Story Id', showInColumnChooser: false, isPrimaryKey: true, type: "number", visible: false },
-        { field: 'TaskId', headerText: 'Task Id', type: "number" },
-        { field: 'Title', headerText: 'Title', type: "string", validationRules: { required: true } },
+        { field: 'SortOrder', headerText: 'Sort Order', type: "number", visible: false },
+        { field: 'StoryId', headerText: 'Story ID', showInColumnChooser: false, isPrimaryKey: true, type: "number", visible: false },
+        { field: 'TaskId', headerText: 'Task ID', type: "number", visible: false },
+        { field: 'Title', headerText: 'Title',width:'150px' , type: "string", validationRules: { required: true } },
         { field: 'ThemeName', headerText: 'Theme', type: "string" },
         { field: 'EpicName', headerText: 'Epic', type: "string" },
-        { field: 'Milestone', headerText: 'Milestone', type: "string", visible: false },
+        { field: 'StoryPoints', headerText: 'Estimate', type: "number" },
+        { field: 'Milestone', headerText: 'Milestone', type: "string", visible: false },        
+        { field: 'Benifit', headerText: 'Benefit', type: "number", visible: true },
+        { field: 'Penalty', headerText: 'Penalty', type: "number", visible: true },
+        { field: 'Priority', headerText: 'Priority', type: "string", visible: true },
         { field: 'Release', headerText: 'Release', type: "string" },
         {
-            field: 'Status', headerText: 'Status', type: "string", width: 150, edit: {
+            field: 'Status', headerText: 'Status', type: "string", width: 150, visible: true, edit: {
                 create: () => {
                     statusElem = document.createElement('input');
                     return statusElem;
@@ -69,13 +74,9 @@ let storiesList: Grid = new Grid({
                     });
                     statusObj.appendTo(statusElem);
                 }
-            } },
-        { field: 'Priority', headerText: 'Priority', type: "string", visible: false },
-        { field: 'Benifit', headerText: 'Benefit', type: "number", visible: false },
-        { field: 'Penalty', headerText: 'Penalty', type: "number", visible: false },
-        { field: 'StoryPoints', headerText: 'Story Points', type: "number" },
-        { field: 'SortOrder', headerText: 'Sort Order', type: "number", visible: false },
-        { field: 'SprintName', headerText: 'Sprint', type: "string" },
+            }
+        },
+        { field: 'SprintName', headerText: 'Sprint', type: "string", visible: false },
         { field: 'AssigneeName', headerText: 'Assignee', type: "string", visible: false },
         { field: 'Tag', headerText: 'Label', type: "string", visible: false }
     ],
