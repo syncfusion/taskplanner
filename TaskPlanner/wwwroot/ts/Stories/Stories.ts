@@ -31,15 +31,16 @@ let storiesList: Grid = new Grid({
     editSettings: { allowEditing: true, allowAdding: true, allowDeleting: true, mode: 'normal' },
     groupSettings: { showDropArea: true },
     columns: [
-        { field: 'StoryId', headerText: 'Story Id', showInColumnChooser: false, isPrimaryKey: true },
-        { field: 'Title', headerText: 'Title',width:'150px' },
-        { field: 'ThemeName', headerText: 'Theme Name' },
-        { field: 'EpicName', headerText: 'Epic Name' },
-        { field: 'Priority', headerText: 'Priority' },
-        { field: 'Benifit', headerText: 'Benefit' },
-        { field: 'Penalty', headerText: 'Penalty' },
-        { field: 'StoryPoints', headerText: 'Story Points' },
-        { field: 'Tag', headerText: 'Tag' }
+        { field: 'StoryId', headerText: 'Story Id', showInColumnChooser: false, isPrimaryKey: true, type: "number", visible: false },
+        { field: 'TaskId', headerText: 'Task Id', type: "number" },
+        { field: 'Title', headerText: 'Title', width:'150', type: "string" },
+        { field: 'ThemeName', headerText: 'Theme Name', type: "string" },
+        { field: 'EpicName', headerText: 'Epic Name', type: "string" },
+        { field: 'Priority', headerText: 'Priority', type: "string" },
+        { field: 'Benifit', headerText: 'Benefit', type: "number" },
+        { field: 'Penalty', headerText: 'Penalty', type: "number" },
+        { field: 'StoryPoints', headerText: 'Story Points', type: "number" },
+        { field: 'Tag', headerText: 'Tag', type: "string" }
     ],
     created: create,
     dataSource: templatedata,
@@ -64,8 +65,69 @@ function create(): void {
     progressModel.style.cssText = "display : none";
 }
 
-function actionBegin(): void {
+function actionBegin(args): void {
     progressModel.style.cssText = "display : block";
+    if (args.requestType == "save") {
+        $.ajax({
+            data: {
+                'data': JSON.stringify(args.data),
+                'projectId': projectId,
+            },
+            dataType: 'json',
+            timeout: 180000,
+            complete: function () {
+                progressModel.style.cssText = "display : none";
+            },
+            type: "POST",
+            url: '/story/addupdate/',
+            error: function (response) {
+                progressModel.style.cssText = "display : none";
+                toastr.error("Unexpected error occured");
+            },
+            success: function (response) {
+                storiesList.refresh();
+                progressModel.style.cssText = "display : none";
+                if (response.status === true) {
+                    toastr.success(response.message);
+                }
+                else {
+                    toastr.error(response.message);
+                }
+            },
+        });
+    }
+    else if (args.requestType == "delete") {
+        var confirm = (<any>window).confirm("Are you sure you want to delete selected story? Once deleted it cannot be recovered.");
+        if (!confirm)
+            return false;
+
+        $.ajax({
+            data: {
+                'storyId': args.data[0].StoryId,
+            },
+            dataType: 'json',
+            timeout: 180000,
+            complete: function () {
+                progressModel.style.cssText = "display : none";
+            },
+            type: "POST",
+            url: '/story/delete/',
+            error: function (response) {
+                progressModel.style.cssText = "display : none";
+                toastr.error("Unexpected error occured");
+            },
+            success: function (response) {
+                storiesList.refresh();
+                progressModel.style.cssText = "display : none";
+                if (response.status === true) {
+                    toastr.success(response.message);
+                }
+                else {
+                    toastr.error(response.message);
+                }
+            },
+        });
+    }
 }
 
 function actionComplete(): void {

@@ -14,7 +14,20 @@ namespace TaskPlanner.Base.Stories
         /// <param name="projectId">Project Id</param>
         /// <returns>returns stories lists</returns>
         List<StoryObjects> GetStoriesList(int projectId);
+
+        /// <summary>
+        /// Method declaration to add/update story
+        /// </summary>
+        /// <param name="newStoryDetails">Story Object</param>
+        /// <returns>transaction results</returns>
         TransactionResult UpdateStoryDetails(StoryObjects newStoryDetails);
+
+        /// <summary>
+        /// Method declaration to delete story
+        /// </summary>
+        /// <param name="storyId">Story Id</param>
+        /// <returns>transaction results</returns>
+        TransactionResult DeleteStory(int storyId);
     }
 
     public class StoryBaseModel : IStoryBaseModel
@@ -40,6 +53,7 @@ namespace TaskPlanner.Base.Stories
                               select new StoryObjects()
                               {
                                   StoryId = story.StoryId,
+                                  TaskId = story.TaskId,
                                   Title = story.Title,
                                   ThemeName = theme.ThemeName,
                                   EpicName = epic.EpicName,
@@ -59,6 +73,11 @@ namespace TaskPlanner.Base.Stories
             return result;
         }
 
+        /// <summary>
+        /// Method definition to add/update story
+        /// </summary>
+        /// <param name="newStoryDetails">Story Object</param>
+        /// <returns>transaction results</returns>
         public TransactionResult UpdateStoryDetails(StoryObjects newStoryDetails)
         {
             var result = new TransactionResult();
@@ -77,6 +96,7 @@ namespace TaskPlanner.Base.Stories
                                                select story).FirstOrDefault();
                         if (storyDetailsObj != null)
                         {
+                            storyDetailsObj.TaskId = newStoryDetails.TaskId;
                             storyDetailsObj.Title = newStoryDetails.Title;
                             storyDetailsObj.Description = newStoryDetails.Description;
                             storyDetailsObj.ProjectId = newStoryDetails.ProjectId;
@@ -87,12 +107,13 @@ namespace TaskPlanner.Base.Stories
                             storyDetailsObj.Benefit = newStoryDetails.Benifit;
                             storyDetailsObj.Penality = newStoryDetails.Penalty;
                             storyDetailsObj.SortOrder = newStoryDetails.SortOrder;
-                            storyDetailsObj.CreatedBy = newStoryDetails.CreatedBy;
                             storyDetailsObj.AssigneeName = newStoryDetails.AssigneeName;
                             storyDetailsObj.SprintName = newStoryDetails.SprintName;
                             storyDetailsObj.CreatedOn = newStoryDetails.CreatedOn;
                             storyDetailsObj.UpdatedOn = DateTime.Now;
                             storyDetailsObj.Tag = newStoryDetails.Tag;
+
+                            result.IsNewRecord = false;
                         }
                     }
                     else
@@ -120,6 +141,8 @@ namespace TaskPlanner.Base.Stories
                         };
 
                         context.Stories.Add(newStory);
+
+                        result.IsNewRecord = true;
                     }
 
                     context.SaveChanges();
@@ -135,6 +158,11 @@ namespace TaskPlanner.Base.Stories
             return result;
         }
 
+        /// <summary>
+        /// Method definition to delete story
+        /// </summary>
+        /// <param name="storyId">Story Id</param>
+        /// <returns>transaction results</returns>
         public TransactionResult DeleteStory(int storyId)
         {
             var result = new TransactionResult();

@@ -15,6 +15,7 @@ namespace TaskPlanner.Objects
         public string Information { get; set; }
         public string ErrorMessage { get; set; }
         public int? Id { get; set; }
+        public bool IsNewRecord { get; set; }
     }
 
 }
