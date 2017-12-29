@@ -37,6 +37,9 @@ namespace TaskPlanner.Entity
         public System.DateTime UpdatedOn { get; set; }
         public bool IsActive { get; set; }
         public string Tag { get; set; }
+        public string Status { get; set; }
+        public string Release { get; set; }
+        public string Milestone { get; set; }
 
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual Epic Epic { get; set; }
