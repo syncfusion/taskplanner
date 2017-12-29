@@ -59,6 +59,10 @@
     .story-content {
         margin-top: 2%;
     }
+
+    .e-grid .e-groupdroparea {
+        font-weight: 400 !important;
+    }
 </style>
 
 @section Scripts {
@@ -69,11 +73,20 @@
 
 <div class="row page-sub-header" style="margin-bottom: 0;padding-bottom: 0; background: #4285f6;font-weight:400">
     <div class="page-header-title">
-        <p style="font-weight:500">@ViewBag.ProjectName</p>
+        <p style="font-weight:500;margin-top:5px">@ViewBag.ProjectName</p>
     </div>
     <div class="page-header-title" style="margin-top: 10px;margin-bottom: -4px;">
-        <p style="font-weight:300">@ViewBag.ProjectDescription</p>
+        <p style="font-weight:400;font-size:13px">@ViewBag.ProjectDescription</p>
     </div>
+</div>
+
+<div class="alert alert-info" style="margin-top:20px;margin-bottom:10px" >
+    <ul style="margin-left:-10px">
+        <li>Here you can prepare a plan for your project. Just title alone required to create stories rest all fields are optional.</li>
+        <li>Some of typical use cases of this page is to prepare a roadmap, plan stories for features, sprint, epic or themes. Prepare estimates, filter/sort stories by priority, benefits and penalty.</li>
+        <li>You can find some more fields when you click on columns button which also can be utilised based on project need or requirement.</li>
+        <li>To group a story by theme, epic, sprint or release just drag and drop column header to below area.</li>
+    </ul>
 </div>
 
 <section class="content story-content">
