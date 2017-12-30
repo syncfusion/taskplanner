@@ -57,8 +57,36 @@ Categorize and group stories by theme, epics in a grid view
 * Improve Responsiveness to mobile
 * Documents and screenshots maintenance 
 
+# Screenshots
 
-# Third Party library usage credits
+# Home page 
+
+![Homepage](http://www.syncfusion.com/downloads/support/directtrac/general/homepage1143043756.png "Homepage")
+
+# Google Authentication
+
+![Login](http://www.syncfusion.com/downloads/support/directtrac/general/login1311576156.png "Login")
+
+# Projects - Add, Edit, Delete, Favourite
+
+![Projects](http://www.syncfusion.com/downloads/support/directtrac/general/projects1530791014.png "Projects")
+
+# Sharing Projects
+
+![Sharing Project](http://www.syncfusion.com/downloads/support/directtrac/general/share1386578163.png "Sharing Project")
+
+# Plan roadmaps / stories / features
+
+![Planning Stories / Roadmap](http://www.syncfusion.com/downloads/support/directtrac/general/stories1753205535.png "Planning Stories / Roadmap")
+
+# Using additional columns other than those visble by default
+
+![Selecting Columns](http://www.syncfusion.com/downloads/support/directtrac/general/columns1029361484.png "Selecting Columns")
+
+
+# Third Party library credits
+
+Thankfull to following third party library vendors aiding in implementation of features
 
 * Bootstrap 
 * Toastr 
