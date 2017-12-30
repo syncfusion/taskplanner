@@ -281,117 +281,140 @@ function loadprojectsTab(projectId) {
         };
 	}
 
+(<any>window).shareClick = function (id) {
 
-	let ajaxshare: Ajax = new Ajax("/project/shareproject", "GET", true);
-	ajaxshare.send().then();
+    $.ajax({
+        type: "Get",
+        url: '/project/shareproject',
+        data: {
+            'projectId': id
+        },
+        error: function (response) {
+        },
+        success: function (response) {
+
+            $('#sharemodalDialog').html('');
+
+                let sharedialogObj: Dialog = new Dialog({
+                    width: '600px',
+                    height: '500px',
+                    header: 'Share Project',
+                    //created: dlgCreate,
+                    content: response,
+                    closeOnEscape: false,
+                    target: document.getElementById('targetbody'),
+                    isModal: true,
+                    showCloseIcon: true,
+                    animationSettings: { effect: 'None' },
+                    buttons: [{
+                        click: cancelButtonClick,
+                        buttonModel: { id: 'addprojectCancelButton', content: 'Cancel', cssClass: 'e-flat dlg-btn-secondary' },
+                    }],
+                });
+                sharedialogObj.appendTo('#sharemodalDialog');
+                sharedialogObj.hide();
+
+                document.getElementById('sharemodalDialog').style.maxHeight = '500px';
+
+                function cancelButtonClick(): void {
+                    sharedialogObj.hide();
+                }
+
+
+
+                sharedialogObj.overlayClick = (): void => {
+                    sharedialogObj.hide();
+                };
+
+                document.getElementById('sharebtn').onclick = (): void => {
+                    let emailContainer = document.getElementById('shareEmail') as HTMLInputElement;
+                    let erroremail = document.getElementById('erroremail') as HTMLInputElement;
+                    if (emailContainer.value !== "") {
+                        //if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(emailContainer.value)){
+                        //	erroremail.innerHTML = "You have entered an invalid email address";
+                        //	erroremail.style.display = "block";
+                        //}
+                        //else {
+                        $.ajax({
+                            dataType: 'json',
+                            type: "GET",
+                            url: '/project/shareemail',
+                            data: {
+                                'projectId': sharedialogObj.id, 'email': emailContainer.value
+                            },
+                            error: function (response) {
+
+                            },
+                            success: function (response) {
+                                if (response.status === true) {
+                                    sharedialogObj.hide();
+
+                                    toastr.success('Permission added successfully. Share the project link to user.');
+                                }
+                            },
+                            complete: function () {
+
+                            },
+                        });
+                    }
+                    //}
+                    else {
+                        if (emailContainer.value === "") {
+                            erroremail.innerHTML = "Required Field";
+                            erroremail.style.display = "block";
+                        }
+                    }
+                };
+
+                (<any>window).deleteShareProjectClick = function (id) {
+
+                    var confirm = (<any>window).confirm("Are you sure you want to delete project permission? Once deleted it cannot be recovered.");
+
+                    if (!confirm)
+                        return false;
+                    $.ajax({
+                        dataType: 'json',
+                        type: "POST",
+                        url: '/project/removepermission',
+                        data: {
+                            'permissionId': id
+                        },
+                        error: function (response) {
+
+                        },
+                        success: function (response) {
+                            if (response.status === true) {
+                                sharedialogObj.hide();
+                                toastr.success(response.message);
+                            }
+                        },
+                        complete: function () {
+
+                        },
+                    });
+                };
+
+
+                sharedialogObj.id = id;
+                let button = new Button({ cssClass: 'e-success' });
+                button.appendTo('#sharebtn');
+                let projectNameContainer = document.getElementById('shareEmail') as HTMLInputElement;
+                projectNameContainer.value = "";
+                //let shareEmailContainer = document.getElementById('shareLinks') as HTMLInputElement;
+                //shareEmailContainer.value = window.location.href;
+                sharedialogObj.show();
+             
+        },
+        complete: function () {
+        },
+    });
+
+     
+
+
+   
+};
+
+
 	
-	ajaxshare.onSuccess = (data: string): void => {
-		;
-		let sharedialogObj: Dialog = new Dialog({
-			width: '600px',
-			height: '500px',
-			header: 'Share Project',
-			//created: dlgCreate,
-			content: data,
-			closeOnEscape: false,
-			target: document.getElementById('targetbody'),
-			isModal: true,
-			showCloseIcon: true,
-			animationSettings: { effect: 'None' },
-			buttons: [{
-				click: cancelButtonClick,
-				buttonModel: { id: 'addprojectCancelButton', content: 'Cancel', cssClass: 'e-flat dlg-btn-secondary' },
-			}],
-		});
-		sharedialogObj.appendTo('#sharemodalDialog');
-		sharedialogObj.hide();
-
-		document.getElementById('sharemodalDialog').style.maxHeight = '500px';
-
-		function cancelButtonClick(): void {
-			sharedialogObj.hide();
-		}
-
-		(<any>window).shareClick = function (id) {
-			sharedialogObj.id = id;
-			let button = new Button({ cssClass: 'e-success' });
-			button.appendTo('#sharebtn');
-			let projectNameContainer = document.getElementById('shareEmail') as HTMLInputElement;
-			projectNameContainer.value = "";
-			let shareEmailContainer = document.getElementById('shareLinks') as HTMLInputElement;
-			shareEmailContainer.value = window.location.href;
-			sharedialogObj.show();
-			$("#shareLinks").select();
-		};
-
-		sharedialogObj.overlayClick = (): void => {
-			sharedialogObj.hide();
-		};
-
-		document.getElementById('sharebtn').onclick = (): void => {
-			let emailContainer = document.getElementById('shareEmail') as HTMLInputElement;
-			let erroremail = document.getElementById('erroremail') as HTMLInputElement;
-			if (emailContainer.value !== "") {
-				//if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(emailContainer.value)){
-				//	erroremail.innerHTML = "You have entered an invalid email address";
-				//	erroremail.style.display = "block";
-				//}
-				//else {
-				$.ajax({
-					dataType: 'json',
-					type: "GET",
-					url: '/project/shareemail',
-					data: {
-						'projectId': sharedialogObj.id, 'email': emailContainer.value
-					},
-					error: function (response) {
-
-					},
-					success: function (response) {
-						if (response.status === true) {
-							sharedialogObj.show();						
-						}
-					},
-					complete: function () {
-
-					},
-				});
-			}
-			//}
-			else {
-				if (emailContainer.value === "") {
-					erroremail.innerHTML = "Required Field";
-					erroremail.style.display = "block";
-				}
-			}
-		};
-
-		(<any>window).deleteShareProjectClick = function (id) {
-
-			var confirm = (<any>window).confirm("Are you sure you want to delete project permission? Once deleted it cannot be recovered.");
-
-			if (!confirm)
-				return false;
-			$.ajax({
-				dataType: 'json',
-				type: "POST",
-				url: '/project/removepermission',
-				data: {
-					'permissionId': id
-				},
-				error: function (response) {
-
-				},
-				success: function (response) {
-					if (response.status === true) {
-						sharedialogObj.hide();		
-						toastr.success(response.message);
-					}
-				},
-				complete: function () {
-
-				},
-			});
-		};
-	}
 
