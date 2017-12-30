@@ -79,7 +79,7 @@ Plan roadmaps / stories / features
 
 ![Planning Stories / Roadmap](http://www.syncfusion.com/downloads/support/directtrac/general/stories1753205535.png "Planning Stories / Roadmap")
 
-# Using additional columns other than those visble by default
+Using additional columns other than those visble by default
 
 ![Selecting Columns](http://www.syncfusion.com/downloads/support/directtrac/general/columns1029361484.png "Selecting Columns")
 
