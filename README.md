@@ -59,23 +59,23 @@ Categorize and group stories by theme, epics in a grid view
 
 # Screenshots
 
-# Home page 
+Home page 
 
-![Homepage](http://www.syncfusion.com/downloads/support/directtrac/general/homepage1143043756.png "Homepage")
+![Homepage](http://www.syncfusion.com/downloads/support/directtrac/general/homepage-298396481.png "Homepage")
 
-# Google Authentication
+Google Authentication
 
 ![Login](http://www.syncfusion.com/downloads/support/directtrac/general/login1311576156.png "Login")
 
-# Projects - Add, Edit, Delete, Favourite
+Projects - Add, Edit, Delete, Favourite
 
-![Projects](http://www.syncfusion.com/downloads/support/directtrac/general/projects1530791014.png "Projects")
+![Projects](http://www.syncfusion.com/downloads/support/directtrac/general/projects-461488668.png "Projects")
 
-# Sharing Projects
+Sharing Projects
 
 ![Sharing Project](http://www.syncfusion.com/downloads/support/directtrac/general/share1386578163.png "Sharing Project")
 
-# Plan roadmaps / stories / features
+Plan roadmaps / stories / features
 
 ![Planning Stories / Roadmap](http://www.syncfusion.com/downloads/support/directtrac/general/stories1753205535.png "Planning Stories / Roadmap")
 
