@@ -58,12 +58,12 @@ Categorize and group stories by theme, epics in a grid view
 * Documents and screenshots maintenance 
 
 
-# Third Party libraries credits
+# Third Party library usage credits
 
-* Bootstrap, 
-* Toastr, 
-* typescript, 
-* Systemjs, 
+* Bootstrap 
+* Toastr 
+* typescript 
+* Systemjs
 * Syncfusion ej2 components (grid, button , dialog) - http://ej2.syncfusion.com 
 
 
