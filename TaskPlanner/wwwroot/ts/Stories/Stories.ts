@@ -1,11 +1,11 @@
 ﻿import { enableRipple } from '@syncfusion/ej2-base';
 import { DataManager, UrlAdaptor } from '@syncfusion/ej2-data';
 import { DropDownList } from '@syncfusion/ej2-dropdowns';
-import { Filter, Grid, Page, Pager, QueryCellInfoEventArgs, RowDataBoundEventArgs, Sort, SortEventArgs, Toolbar, ExcelExport, Group, FilterType, Resize, ColumnChooser, Edit  } from '@syncfusion/ej2-grids';
+import { ColumnChooser, ContextMenu, Filter, Grid, Page, Pager, ColumnMenu, QueryCellInfoEventArgs, PdfExport, RowDataBoundEventArgs, Sort, SortEventArgs, Toolbar, ExcelExport, Group, FilterType, Resize, Edit,Reorder  } from '@syncfusion/ej2-grids';
 import { Dialog } from '@syncfusion/ej2-popups';
 import { ClickEventArgs } from '@syncfusion/ej2-navigations';
 enableRipple(true);
-Grid.Inject(Sort, Page, Filter, Toolbar, ExcelExport, Group, Resize, ColumnChooser, Edit );
+Grid.Inject(ColumnChooser, Sort, Page, ContextMenu, Filter, Toolbar, ExcelExport, PdfExport, Group, Resize, Edit, ColumnMenu, Reorder );
 let progressModel: HTMLInputElement = document.getElementById('progressDialogModal') as HTMLInputElement;
 
 let projectId = $("#projectId").val();
@@ -29,22 +29,29 @@ let storiesList: Grid = new Grid({
     actionBegin: actionBegin,
     actionComplete: actionComplete, 
     allowExcelExport: true,
+    allowPdfExport:false,
     allowPaging: false,
     allowGrouping: true, 
     allowSorting: true,
     allowFiltering: true,
     allowTextWrap: true,
+    showColumnMenu: true,
     filterSettings: { type: 'checkbox' },  
     toolbar: ['excelexport', 'search', 'columnchooser', 'add', 'edit', 'delete', 'update', 'cancel'],
     showColumnChooser: true,
-    //enablePersistence: true,
+    allowResizing: true,
+    allowMultisorting: true,
+    //allowReordering: true,
+    enablePersistence: true,
+    contextMenuItems: ['autoFit', 'autoFitAll', 'sortAscending', 'sortDescending',
+        'copy', 'edit', 'delete', 'save', 'cancel','excelExport', 'csvExport', ],
     editSettings: { allowEditing: true, allowAdding: true, allowDeleting: true, mode: 'normal' },
     groupSettings: { showDropArea: true },
     columns: [
         { field: 'SortOrder', headerText: 'Sort Order', type: "number", visible: false },
         { field: 'StoryId', headerText: 'Story ID', showInColumnChooser: false, isPrimaryKey: true, type: "number", visible: false },
         { field: 'TaskId', headerText: 'Task ID', type: "number", visible: false },
-        { field: 'Title', headerText: 'Title',width:'150px' , type: "string", validationRules: { required: true } },
+        { field: 'Title', headerText: 'Title',width:'200px' , type: "string", validationRules: { required: true } },
         { field: 'ThemeName', headerText: 'Theme', type: "string" },
         { field: 'EpicName', headerText: 'Epic', type: "string" },
         { field: 'StoryPoints', headerText: 'Estimate', type: "number" },
@@ -52,30 +59,32 @@ let storiesList: Grid = new Grid({
         { field: 'Benifit', headerText: 'Benefit', type: "number", visible: true },
         { field: 'Penalty', headerText: 'Penalty', type: "number", visible: true },
         { field: 'Priority', headerText: 'Priority', type: "string", visible: true },
-        { field: 'Release', headerText: 'Release', type: "string" },
-        {
-            field: 'Status', headerText: 'Status', type: "string", width: 150, visible: true, edit: {
-                create: () => {
-                    statusElem = document.createElement('input');
-                    return statusElem;
-                },
-                read: () => {
-                    return statusObj.text;
-                },
-                destroy: () => {
-                    statusObj.destroy();
-                },
-                write: () => {
-                    statusObj = new DropDownList({
-                        dataSource: status,
-                        fields: { value: 'statusId', text: 'statusName' },
-                        placeholder: 'Select status',
-                        floatLabelType: 'Never'
-                    });
-                    statusObj.appendTo(statusElem);
-                }
-            }
-        },
+        { field: 'Release', headerText: 'Release', type: "string", visible: false },
+        { field: 'Status', headerText: 'Status', type: "string", visible: true },
+        //{
+        //    field: 'Status', headerText: 'Status', type: "string", width: 150, visible: true, edit: {
+        //        create: () => {
+        //            statusElem = document.createElement('input');
+        //            return statusElem;
+        //        },
+        //        read: () => {
+        //            return statusObj.text;
+        //        },
+        //        destroy: () => {
+        //            if (statusObj)
+        //            statusObj.destroy();
+        //        },
+        //        write: () => {
+        //            statusObj = new DropDownList({
+        //                dataSource: status,
+        //                fields: { value: 'statusId', text: 'statusName' },
+        //                placeholder: 'Select status',
+        //                floatLabelType: 'Never'
+        //            });
+        //            statusObj.appendTo(statusElem);
+        //        }
+        //    }
+        //},
         { field: 'SprintName', headerText: 'Sprint', type: "string", visible: false },
         { field: 'AssigneeName', headerText: 'Assignee', type: "string", visible: false },
         { field: 'Tag', headerText: 'Label', type: "string", visible: false }
@@ -83,6 +92,7 @@ let storiesList: Grid = new Grid({
     created: create,
     dataSource: templatedata,
     load: load,
+    dataBound: () => storiesList.autoFitColumns()
     //pageSettings: { pageSize: 10 },
 
 });
@@ -92,11 +102,14 @@ storiesList.toolbarClick = (args: ClickEventArgs) => {
     if (args.item.id === 'storiesList_excelexport') {
         storiesList.excelExport();
     } 
+    if (args.item.id === 'storiesList_pdfExport') {
+        storiesList.pdfExport();
+    } 
 };
 
 
 function load(): void {
-    progressModel.style.cssText = "display : block";
+   // progressModel.style.cssText = "display : block";
 }
 
 function create(): void {
@@ -104,7 +117,7 @@ function create(): void {
 }
 
 function actionBegin(args): void {
-    progressModel.style.cssText = "display : block";
+   // progressModel.style.cssText = "display : block";
     if (args.requestType == "save") {
         $.ajax({
             data: {
