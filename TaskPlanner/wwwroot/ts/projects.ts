@@ -181,7 +181,7 @@ function loadprojectsTab(projectId) {
             },
             {
                 click: addButtonClick,
-                buttonModel: { id: 'addprojectAddbutton', content: 'Update', cssClass: 'e-flat', isPrimary: true },
+                buttonModel: { id: 'addprojectAddbutton', content: 'Update', cssClass: 'e-flat dlg-btn-primary', isPrimary: true },
             }],
             open: addMilestonedialogOpen,
         });
@@ -396,7 +396,7 @@ function loadprojectsTab(projectId) {
 
 
                 sharedialogObj.id = id;
-                let button = new Button({ cssClass: 'e-success' });
+                let button = new Button();
                 button.appendTo('#sharebtn');
                 let projectNameContainer = document.getElementById('shareEmail') as HTMLInputElement;
                 projectNameContainer.value = "";
