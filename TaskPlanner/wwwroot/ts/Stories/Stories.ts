@@ -1,11 +1,11 @@
 ﻿import { enableRipple } from '@syncfusion/ej2-base';
 import { DataManager, UrlAdaptor } from '@syncfusion/ej2-data';
 import { DropDownList } from '@syncfusion/ej2-dropdowns';
-import { ColumnChooser, ContextMenu, Filter, Grid, Page, Pager, ColumnMenu, QueryCellInfoEventArgs, PdfExport, RowDataBoundEventArgs, Sort, SortEventArgs, Toolbar, ExcelExport, Group, FilterType, Resize, Edit,Reorder  } from '@syncfusion/ej2-grids';
+import { Filter, Grid, Page, Pager, QueryCellInfoEventArgs, RowDataBoundEventArgs, Sort, SortEventArgs, Toolbar, ExcelExport, Group, FilterType, Resize, ColumnChooser, Edit, ColumnMenu  } from '@syncfusion/ej2-grids';
 import { Dialog } from '@syncfusion/ej2-popups';
 import { ClickEventArgs } from '@syncfusion/ej2-navigations';
 enableRipple(true);
-Grid.Inject(ColumnChooser, Sort, Page, ContextMenu, Filter, Toolbar, ExcelExport, PdfExport, Group, Resize, Edit, ColumnMenu, Reorder );
+Grid.Inject(Sort, Page, Filter, Toolbar, ExcelExport, Group, Resize, ColumnChooser, Edit, ColumnMenu );
 let progressModel: HTMLInputElement = document.getElementById('progressDialogModal') as HTMLInputElement;
 
 let projectId = $("#projectId").val();
@@ -29,70 +29,62 @@ let storiesList: Grid = new Grid({
     actionBegin: actionBegin,
     actionComplete: actionComplete, 
     allowExcelExport: true,
-    allowPdfExport:false,
     allowPaging: false,
     allowGrouping: true, 
     allowSorting: true,
     allowFiltering: true,
-    allowTextWrap: true,
-    showColumnMenu: true,
-    filterSettings: { type: 'checkbox' },  
-    toolbar: ['excelexport', 'search', 'columnchooser', 'add', 'edit', 'delete', 'update', 'cancel'],
-    showColumnChooser: true,
     allowResizing: true,
-    allowMultisorting: true,
-    //allowReordering: true,
-    enablePersistence: true,
-    contextMenuItems: ['autoFit', 'autoFitAll', 'sortAscending', 'sortDescending',
-        'copy', 'edit', 'delete', 'save', 'cancel','excelExport', 'csvExport', ],
-    editSettings: { allowEditing: true, allowAdding: true, allowDeleting: true, mode: 'normal' },
+    allowTextWrap: true,
+    filterSettings: { type: 'CheckBox' },
+    toolbar: ['ExcelExport', 'Search', 'ColumnChooser', 'Add', 'Edit', 'Delete', 'Update', 'Cancel'],
+    showColumnChooser: true,
+    showColumnMenu: true,
+    //enablePersistence: true,
+    editSettings: { allowEditing: true, allowAdding: true, allowDeleting: true, mode: 'Normal' },
     groupSettings: { showDropArea: true },
     columns: [
-        { field: 'SortOrder', headerText: 'Sort Order', type: "number", visible: false },
-        { field: 'StoryId', headerText: 'Story ID', showInColumnChooser: false, isPrimaryKey: true, type: "number", visible: false },
-        { field: 'TaskId', headerText: 'Task ID', type: "number", visible: false },
-        { field: 'Title', headerText: 'Title',width:'200px' , type: "string", validationRules: { required: true } },
-        { field: 'ThemeName', headerText: 'Theme', type: "string" },
-        { field: 'EpicName', headerText: 'Epic', type: "string" },
-        { field: 'StoryPoints', headerText: 'Estimate', type: "number" },
-        { field: 'Milestone', headerText: 'Milestone', type: "string", visible: false },        
-        { field: 'Benifit', headerText: 'Benefit', type: "number", visible: true },
-        { field: 'Penalty', headerText: 'Penalty', type: "number", visible: true },
-        { field: 'Priority', headerText: 'Priority', type: "string", visible: true },
-        { field: 'Release', headerText: 'Release', type: "string", visible: false },
-        { field: 'Status', headerText: 'Status', type: "string", visible: true },
-        //{
-        //    field: 'Status', headerText: 'Status', type: "string", width: 150, visible: true, edit: {
-        //        create: () => {
-        //            statusElem = document.createElement('input');
-        //            return statusElem;
-        //        },
-        //        read: () => {
-        //            return statusObj.text;
-        //        },
-        //        destroy: () => {
-        //            if (statusObj)
-        //            statusObj.destroy();
-        //        },
-        //        write: () => {
-        //            statusObj = new DropDownList({
-        //                dataSource: status,
-        //                fields: { value: 'statusId', text: 'statusName' },
-        //                placeholder: 'Select status',
-        //                floatLabelType: 'Never'
-        //            });
-        //            statusObj.appendTo(statusElem);
-        //        }
-        //    }
-        //},
-        { field: 'SprintName', headerText: 'Sprint', type: "string", visible: false },
-        { field: 'AssigneeName', headerText: 'Assignee', type: "string", visible: false },
-        { field: 'Tag', headerText: 'Label', type: "string", visible: false }
+        { field: 'SortOrder', headerText: 'Sort Order', type: "number", visible: false, clipMode: 'EllipsisWithTooltip'},
+        { field: 'StoryId', headerText: 'Story ID', showInColumnChooser: false, isPrimaryKey: true, type: "number", visible: false, clipMode: 'EllipsisWithTooltip' },
+        { field: 'TaskId', headerText: 'Task ID', type: "number", visible: false, clipMode: 'EllipsisWithTooltip'},
+        { field: 'Title', headerText: 'Title', width: '150px', type: "string", validationRules: { required: true } ,clipMode: 'EllipsisWithTooltip'},
+        { field: 'ThemeName', headerText: 'Theme', type: "string", clipMode: 'EllipsisWithTooltip' },
+        { field: 'EpicName', headerText: 'Epic', type: "string", clipMode: 'EllipsisWithTooltip' },
+        { field: 'StoryPoints', headerText: 'Estimate', type: "number", clipMode: 'EllipsisWithTooltip' },
+        { field: 'Milestone', headerText: 'Milestone', type: "string", visible: false, clipMode: 'EllipsisWithTooltip' },        
+       { field: 'Benifit', headerText: 'Benefit', type: "number", visible: true, clipMode: 'EllipsisWithTooltip' },
+        { field: 'Penalty', headerText: 'Penalty', type: "number", visible: true, clipMode: 'EllipsisWithTooltip' },
+        { field: 'Priority', headerText: 'Priority', type: "string", visible: true, clipMode: 'EllipsisWithTooltip' },
+        { field: 'Release', headerText: 'Release', type: "string", clipMode: 'EllipsisWithTooltip' },
+        {
+            field: 'Status', headerText: 'Status', type: "string", width: 150, visible: true, edit: {
+                create: () => {
+                    statusElem = document.createElement('input');
+                    return statusElem;
+                },
+                read: () => {
+                    return statusObj.text;
+                },
+                destroy: () => {
+                    statusObj.destroy();
+                },
+                write: () => {
+                    statusObj = new DropDownList({
+                        dataSource: status,
+                        fields: { value: 'statusId', text: 'statusName' },
+                        placeholder: 'Select status',
+                        floatLabelType: 'Never'
+                    });
+                    statusObj.appendTo(statusElem);
+                }
+            }
+        },
+        { field: 'SprintName', headerText: 'Sprint', type: "string", visible: false, clipMode: 'EllipsisWithTooltip' },
+        { field: 'AssigneeName', headerText: 'Assignee', type: "string", visible: false, clipMode: 'EllipsisWithTooltip' },
+        { field: 'Tag', headerText: 'Label', type: "string", visible: false, clipMode: 'EllipsisWithTooltip' }
     ],
     created: create,
     dataSource: templatedata,
     load: load,
-    dataBound: () => storiesList.autoFitColumns()
     //pageSettings: { pageSize: 10 },
 
 });
@@ -102,14 +94,11 @@ storiesList.toolbarClick = (args: ClickEventArgs) => {
     if (args.item.id === 'storiesList_excelexport') {
         storiesList.excelExport();
     } 
-    if (args.item.id === 'storiesList_pdfExport') {
-        storiesList.pdfExport();
-    } 
 };
 
 
 function load(): void {
-   // progressModel.style.cssText = "display : block";
+    progressModel.style.cssText = "display : block";
 }
 
 function create(): void {
@@ -117,7 +106,7 @@ function create(): void {
 }
 
 function actionBegin(args): void {
-   // progressModel.style.cssText = "display : block";
+    progressModel.style.cssText = "display : block";
     if (args.requestType == "save") {
         $.ajax({
             data: {
@@ -148,7 +137,7 @@ function actionBegin(args): void {
         });
     }
     else if (args.requestType == "delete") {
-        var confirm = (<any>window).confirm("Are you sure you want to delete selected story? Once deleted it cannot be recovered.");
+        var confirm = (<any>window).confirm("Are you sure you want to delete the selected story? Once deleted it cannot be recovered.");
         if (!confirm)
             return false;
 
