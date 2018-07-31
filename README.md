@@ -83,6 +83,7 @@ Using additional columns other than those visble by default
 
 ![Selecting Columns](http://www.syncfusion.com/downloads/support/directtrac/general/columns1029361484.png "Selecting Columns")
 
+Featured in Product Hunt popular list - https://www.producthunt.com/posts/task-planner
 
 # Third Party library credits
 
