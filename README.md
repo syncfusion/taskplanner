@@ -93,6 +93,6 @@ Thankfull to following third party library vendors aiding in implementation of f
 * Toastr 
 * typescript 
 * Systemjs
-* Syncfusion ej2 components (grid, button , dialog) - http://ej2.syncfusion.com 
+* Syncfusion ej2 components (grid, button, dialog) - https://www.syncfusion.com 
 
 
