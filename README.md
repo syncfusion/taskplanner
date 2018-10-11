@@ -83,6 +83,7 @@ Using additional columns other than those visble by default
 
 ![Selecting Columns](http://www.syncfusion.com/downloads/support/directtrac/general/columns1029361484.png "Selecting Columns")
 
+Featured in Product Hunt popular list - https://www.producthunt.com/posts/task-planner
 
 # Third Party library credits
 
@@ -92,6 +93,6 @@ Thankfull to following third party library vendors aiding in implementation of f
 * Toastr 
 * typescript 
 * Systemjs
-* Syncfusion ej2 components (grid, button , dialog) - http://ej2.syncfusion.com 
+* Syncfusion Essential Javascript 2 components (Grid, Button, Dialog) - https://www.syncfusion.com 
 
 
