@@ -1,0 +1,119 @@
+﻿@model TaskPlanner.Models.ProjectShareObjects
+
+<style>
+	.e-dlg-content {
+		padding-bottom: 5px !important;
+	}
+</style>
+<form id="form-element">
+	<label class="addproject-errorlabel" style="color: red;" id="erroraddproject"></label>
+	<div class='row'>
+		<div class='col-sm-10' style="margin-top: -20px;">
+			<div class="e-float-input">
+				<input type="text" placeholder="Enter Gmail ID of person for sharing project" required="" id="shareEmail" maxlength="100">
+				<span class="e-float-line"></span>
+				<label class="errorLabel" style="color: red; padding-top: 8px;" id="erroremail"></label>
+			</div>
+		</div>
+		<div class='col-sm-2'>
+			<button style="float: right;" class="e-css e-btn e-primary" type="submit" id="sharebtn">ADD</button>
+		</div>
+	</div>
+</form>
+
+@*<div>
+	<div class="e-float-input" style="margin-top: 0px">
+		<input type="text" id="shareLinks">
+	</div>
+</div>*@
+
+<style>
+	tr {
+		border: 1px solid #E3E3E6;
+	}
+
+	#projectGrid_content_table .e-emptyrow td, .grid-row td {
+		padding: 7.5px 15px;
+	}
+
+	.grid-row td {
+		width: 100%;
+	}
+
+	.title-row {
+		padding: 10px 0;
+	}
+
+	.descrip-row {
+		padding: 10px 0;
+	}
+
+	.title-row-text {
+		font-weight: 400;
+		width: 60%;
+		color: rgba(0,0,0,.80) !important;
+	}
+
+	.descrip-row-text, .title-row-text {
+		float: left;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.logo-icon-size-project {
+		float: right;
+		margin-left: 20px;
+		font-size: 15px !important;
+		cursor: pointer;
+		color: rgba(0,0,0,.80) !important;
+	}
+
+	.fa, .glyphicon {
+		color: rgba(0,0,0,.54);
+	}
+
+	.descrip-row-text {
+		color: #757575;
+		padding-top: 5px;
+	}
+
+	.descrip-row-text-right {
+		color: #757575;
+		height: 20px;
+		padding-top: 5px;
+		float: right;
+	}
+    #erroremail{
+        font-weight:normal!important;
+    }
+</style>
+
+
+@if (Model != null && Model.ProjectShareListObjects != null && Model.ProjectShareListObjects.Count > 0)
+{
+    <div style="font-weight:400!important;color:rgba(0,0,0,0.87)!important ">Users who has access to this project</div>
+
+	<table style="width: 100%; margin-top:20px;">
+		<tbody>
+			@foreach (var detail in Model.ProjectShareListObjects)
+			{
+
+				<tr class="grid-row">
+					<td>
+						<div class="title-row">
+							<span class="title-row-text" title="@detail.EmailId">
+								@detail.EmailId
+							</span>
+							<i class="sficon-delete logo-icon-size-project" data-id="@detail.PermissionId" data-title="@detail.EmailId" onclick="deleteShareProjectClick(@detail.PermissionId)" title="Remove Permission"></i>
+						</div>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+else
+{
+	<span style="margin-left: 5px;margin-top:10px">No user other than you have access to this project. To share this project add gmail id of user above. Once added user can access this project</span>
+}

@@ -1,0 +1,115 @@
+﻿@model TaskPlanner.Models.ProjectObjects
+
+<style>
+	tr {
+		border: 1px solid #E3E3E6;
+	}
+
+	#projectGrid_content_table .e-emptyrow td, .grid-row td {
+		padding: 7.5px 15px;
+	}
+
+	.grid-row td {
+		width: 100%;
+	}
+
+	.title-row {
+		padding: 10px 0;
+	}
+
+	.descrip-row {
+		padding: 10px 0;
+	}
+
+	.title-row-text {
+		font-weight: 400;
+		width: 60%;
+	}
+
+	.descrip-row-text, .title-row-text {
+		float: left;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.logo-icon-size-project {
+		float: right;
+		margin-left: 20px;
+		font-size: 15px !important;
+		cursor: pointer;
+	}
+
+	.fa, .glyphicon {
+		color: rgba(0,0,0,.54);
+	}
+
+	.descrip-row-text {
+		color: #757575;
+		padding-top: 5px;
+	}
+
+	.descrip-row-text-right {
+		color: #757575;
+		height: 20px;
+		padding-top: 5px;
+		float: right;
+	}
+</style>
+
+
+
+@if (Model != null && Model.ProjectListObjects != null && Model.ProjectListObjects.Count > 0)
+{
+	<table style="width: 100%">
+		<tbody>
+			@foreach (var detail in Model.ProjectListObjects)
+			{
+				<tr class="grid-row" id="@detail.ProjectId">
+					<td>
+                        <div class="title-row">
+                            <span class="title-row-text" title="@detail.ProjectName">
+                                <a href="projects/@detail.ProjectId">@detail.ProjectName</a>
+                            </span>
+                           @if(@detail.IsFavourite)
+                            {
+                            <i class="sficon-favourite logo-icon-size-project" style="background:yellow"  data-id="@detail.ProjectId" data-title="@detail.ProjectName" onclick="faviouriteClick(@detail.ProjectId,'false')" title="Remove from favourite"></i>
+                            }
+                            else
+                            {
+                            <i class="sficon-favourite logo-icon-size-project" data-id="@detail.ProjectId" data-title="@detail.ProjectName" onclick="faviouriteClick(@detail.ProjectId,'true')" title="Add to favourite"></i>
+
+                            }                            
+                            
+                            @if (detail.IsOwner)
+                            {
+                                <i class="sficon-share logo-icon-size-project" data-id="@detail.ProjectId" data-title="@detail.ProjectName" onclick="shareClick(@detail.ProjectId)" title="Share Project / View Permissions" style="display:block"></i>
+                                <i class="sficon-delete logo-icon-size-project" data-id="@detail.ProjectId" data-title="@detail.ProjectName" onclick="deleteClick(@detail.ProjectId)" title="Delete Project" style="display:block"></i>
+                                <i class="sficon-edit logo-icon-size-project" data-id="@detail.ProjectId" data-title="@detail.ProjectName" onclick="editClick(@detail.ProjectId)" title="Edit Project" style="display:block"></i>
+                            }
+                            else
+                            {
+                                <i class="sficon-share logo-icon-size-project" data-id="@detail.ProjectId" data-title="@detail.ProjectName" onclick="shareClick(@detail.ProjectId)" title="Share Project / View Permissions" style="display:none"></i>
+                                <i class="sficon-delete logo-icon-size-project" data-id="@detail.ProjectId" data-title="@detail.ProjectName" onclick="deleteClick(@detail.ProjectId)" title="Delete Project" style="display:none"></i>
+                                <i class="sficon-edit logo-icon-size-project" data-id="@detail.ProjectId" data-title="@detail.ProjectName" onclick="editClick(@detail.ProjectId)" title="Edit Project" style="display:none"></i>                                
+                            }
+
+                        </div>
+						<div class="descrip-row">
+							<span class="descrip-row-text" title="@detail.ProjectDescription">
+								@detail.ProjectDescription
+							</span>
+							<span class="descrip-row-text-right" style="font-size:12px">
+								Created on @detail.CreatedOn.ToString("MMM d, yyyy") by @detail.CreatedBy
+							</span>
+						</div>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+else
+{
+<span style="margin-left: 7px;">No projects found to list here.</span>
+}

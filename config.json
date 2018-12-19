@@ -1,0 +1,6 @@
+{
+  "deploy": [ "deploy/**" ],
+  "base": "deploy",
+  "isShowCase": true,
+  "appName": "task-planner"
+}

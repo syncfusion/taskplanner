@@ -1,0 +1,90 @@
+﻿@using System.Collections.Generic
+@using System.Linq
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Http.Authentication
+@model LoginViewModel
+@inject SignInManager<ApplicationUser> SignInManager
+
+@{
+    ViewData["Title"] = "Log in";
+}
+
+<style>
+    #progressDialogModal {
+        display: none !important;
+    }
+</style>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script>
+        var windowHeight = window.innerHeight;
+        $('#left-section').css('height', windowHeight + 'px')
+    </script>
+}
+<link rel="stylesheet" href="~/css/login.css" />
+<div class=" ">
+    @*<h2>@ViewData["Title"]</h2>*@
+    <div class="row">
+        <div id="left-section" class="col-md-6 col-sm-12 col-lg-6">
+            <div class="title-section">
+                <div>
+                    <img src="~/images/logo.png" />
+                </div>
+                <div class="title-text">
+                    TASK PLANNER
+                </div>
+            </div>
+            <div class="description-section">
+                A simple easy-to-use standalone application to plan project road maps, user stories, and backlogs, estimates effortlessly using the appealing and user friendly interface for software development.
+            </div>
+        </div>
+        <div id="right-section" class="col-sm-12 col-lg-6 col-md-6">
+            <div class="loginmain">
+                <div class="loginmain-intro">
+
+                    You must be logged in to create/view project details in Task Planner
+
+                </div>
+
+                <div class="login-buttons">
+                    <div class="guest-login">
+                        <form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+                            <div>
+                                <p>
+                                    <button type="submit" class="btn btn-primary" name="provider">
+                                        <span class="button-icon"><img src="~/images/guest.png" /></span> <span class="button-text">Guest Login</span>
+                                    </button>
+                                </p>
+                            </div>
+                        </form>
+
+                    </div>
+                    <div style="margin-bottom:3%;">Or</div>
+
+                    <div class="google-login">
+                        @{
+                            var loginProviders = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList(); }
+                        <form asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
+                            <div>
+                                <p>
+                                    @foreach (var provider in loginProviders)
+                                    {
+                                        <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name">
+                                            <span class="button-icon"><img src="~/images/google.png" /></span> <span class="button-text"> Sign with @provider.DisplayName</span>
+                                        </button>
+                                    }
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="disclaimer">
+                This is a simple example application for task management using Syncfusion ASP.NET Core UI controls. Its full source code is available in the <a href="https://github.com/syncfusion/taskplanner" target="_blank">GitHub repository</a>. The application collects usernames and email IDs, stores it temporarily, and clears it on a regular basis.
+                <p class="support-info">For more details, contact <a href="mailto:support@syncfusion.com">support@syncfusion.com.</a></p>
+            </div>
+        </div>
+
+    </div>
+</div>

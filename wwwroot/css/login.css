@@ -1,0 +1,114 @@
+﻿body {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+#left-section {
+    background-color: #EDF0F1;
+}
+
+#left-section .title-section {
+        text-align: center;
+    }
+
+ #left-section .title-section img {
+            padding-top: 22%;
+        }
+
+        #left-section .title-section .title-text {
+            font-size: 32px;
+            font-family: "Roboto",segoe ui;
+            color: #1D1E1F;
+        }
+
+    #left-section .description-section {
+        font-size: 18px;
+        font-family: segoe ui !important;
+        text-align: center;
+        color: #1D1E1F;
+        padding: 7.8% 9%;
+    }
+
+#right-section .disclaimer {
+    font-size: 12px;
+    color: #1D1E1F;
+    letter-spacing: 0.26px;
+    text-align: left;
+    line-height: 19px;
+    text-align: left;
+    padding: 0 2.2%;
+}
+
+.support-info {
+    padding-top: 2%;
+}
+
+.loginmain .btn-primary, .loginmain .btn-primary:hover {
+    width: 64%;
+    background-color: unset;
+    height: 40px;
+}
+
+.loginmain {
+    padding: 20px 60px;
+}
+
+.loginmain-intro {
+    font-size: 24px;
+    color: #424343;
+    letter-spacing: 1.01px;
+    text-align: center;
+    line-height: 31px;
+    padding: 0 10%;
+}
+
+.login-buttons {
+    background: #FFFFFF;
+    border: 1px solid #DADADA;
+    border-radius: 6px;
+    width: 75%;
+    height: 100%;
+    margin: 10% 13%;
+    text-align: center;
+}
+
+.google-login .btn-primary, .google-login .btn-primary:hover {
+    background: #DD4C37;
+    border-radius: 2px;
+    border: none;
+    margin-bottom: 15%;
+}
+
+.google-login .btn-primary .button-icon, .guest-login .btn-primary .button-icon {
+   float: left
+}
+
+.google-login .btn-primary .button-icon img, .guest-login .btn-primary .button-icon img {
+  width: 18px;
+  height: 18px;
+  margin: 25% 30% 20%;
+}
+
+.google-login .btn-primary .button-text, .guest-login .btn-primary .button-text {
+        vertical-align: middle;
+}
+
+.guest-login .btn-primary, .guest-login .btn-primary:hover {
+    background-color: #177CE7;
+    border-radius: 2px;
+    border: none;
+    margin-top: 15%
+}
+
+#right-section {
+    padding-top: 5%;
+}
+@media screen and (max-width: 767px) {
+    /* Hide captions */
+    .google-login .btn-primary .button-icon, .guest-login .btn-primary .button-icon {
+        display: none;
+    }
+    .loginmain .btn-primary, .loginmain .btn-primary:hover{
+        width:75%;
+    }
+}

@@ -1,0 +1,83 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    color: rgba(0,0,0,0.87) !important;
+    font-family: "Roboto",segoe ui;
+}
+
+/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Carousel */
+.carousel-caption p {
+    font-size: 20px;
+    line-height: 1.4;
+}
+
+/* Make .svg files in the carousel display properly in older browsers */
+.carousel-inner .item img[src$=".svg"] {
+    width: 100%;
+}
+
+/* QR code generator */
+#qrCode {
+    margin: 15px;
+}
+
+/* Hide/rearrange for smaller screens */
+@media screen and (max-width: 767px) {
+    /* Hide captions */
+    .carousel-caption {
+        display: none;
+    }
+}
+@media screen and (max-width: 767px) {
+    /* Hide captions */
+    .google-login .btn-primary .button-icon, .guest-login .btn-primary .button-icon {
+        display: none;
+    }
+
+    .loginmain .btn-primary, .loginmain .btn-primary:hover {
+        width: 75%;
+    }
+}
+
+.logo-icon-size{
+    font-size:15px !important;
+}
+
+.primary-color {
+    color: rgba(0,0,0,0.87) !important;
+}
+
+
+
+.secondary-color {
+    color: #757575;
+}
+
+#progressDialogModal {
+    display: block;
+    bottom: 0;
+    left: 0; 
+    right: 0;
+    top: 0;
+    z-index: 1070;
+    background: rgba(0, 0, 0, 0.3) none repeat scroll 0 0;
+}
+
+.loading-icon {
+    color: #ffffff;
+    font-size: 50px !important;
+    left: 50%;
+    position: absolute;
+    top: 50%;
+}
+
+a{
+    color:blue;
+}
