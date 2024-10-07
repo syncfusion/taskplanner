@@ -51,7 +51,7 @@
     "gulp-uglify": "^3.0.0",
     "merge-stream": "^1.0.1",
     "requirejs": "^2.3.3",
-    "sass-lint": "1.12.1",
+    "sass-lint": "1.13.0",
     "typescript": "2.3.4"
   }
 }
